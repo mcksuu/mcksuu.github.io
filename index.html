@@ -140,18 +140,18 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-volley/Android-Volley-Https" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Android-Volley-Https" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/23/volley/Android-Volley-Https/">Android Volley 支持Https（1）</a>
+      <a class="article-title" href="/2016/12/23/Android-Volley-Https/">Android Volley 支持Https（1）</a>
     </h1>
   
 
-        <a href="/2016/12/23/volley/Android-Volley-Https/" class="archive-article-date">
+        <a href="/2016/12/23/Android-Volley-Https/" class="archive-article-date">
   	<time datetime="2016-12-23T03:00:12.654Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-23</time>
 </a>
       </header>
@@ -159,45 +159,45 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>相信大部分开发者都会遇到Volley如何支持自定义证书的问题，最简单的办法就是支持所有的SSL证书。但是如果支持所有的SSL证书的话，就失去了Https的安全性了（App在Google Play上架会不通过）。</p>
+<p>&#x76F8;&#x4FE1;&#x5927;&#x90E8;&#x5206;&#x5F00;&#x53D1;&#x8005;&#x90FD;&#x4F1A;&#x9047;&#x5230;Volley&#x5982;&#x4F55;&#x652F;&#x6301;&#x81EA;&#x5B9A;&#x4E49;&#x8BC1;&#x4E66;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6700;&#x7B80;&#x5355;&#x7684;&#x529E;&#x6CD5;&#x5C31;&#x662F;&#x652F;&#x6301;&#x6240;&#x6709;&#x7684;SSL&#x8BC1;&#x4E66;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x652F;&#x6301;&#x6240;&#x6709;&#x7684;SSL&#x8BC1;&#x4E66;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x5931;&#x53BB;&#x4E86;Https&#x7684;&#x5B89;&#x5168;&#x6027;&#x4E86;&#xFF08;App&#x5728;Google Play&#x4E0A;&#x67B6;&#x4F1A;&#x4E0D;&#x901A;&#x8FC7;&#xFF09;&#x3002;</p>
 </blockquote>
 <hr>
-<h3 id="1-Volley默认支持不支持Https？"><a href="#1-Volley默认支持不支持Https？" class="headerlink" title="1.Volley默认支持不支持Https？"></a>1.Volley默认支持不支持Https？</h3><blockquote>
-<p>答案是支持的！网上大部分都说Volley不支持Https，其实Volley在后面的版本已经可以支持Https请求了。具体啊，还是找度娘看吧，这里主要讲如何实现。</p>
+<h3 id="1-Volley&#x9ED8;&#x8BA4;&#x652F;&#x6301;&#x4E0D;&#x652F;&#x6301;Https&#xFF1F;"><a href="#1-Volley&#x9ED8;&#x8BA4;&#x652F;&#x6301;&#x4E0D;&#x652F;&#x6301;Https&#xFF1F;" class="headerlink" title="1.Volley&#x9ED8;&#x8BA4;&#x652F;&#x6301;&#x4E0D;&#x652F;&#x6301;Https&#xFF1F;"></a>1.Volley&#x9ED8;&#x8BA4;&#x652F;&#x6301;&#x4E0D;&#x652F;&#x6301;Https&#xFF1F;</h3><blockquote>
+<p>&#x7B54;&#x6848;&#x662F;&#x652F;&#x6301;&#x7684;&#xFF01;&#x7F51;&#x4E0A;&#x5927;&#x90E8;&#x5206;&#x90FD;&#x8BF4;Volley&#x4E0D;&#x652F;&#x6301;Https&#xFF0C;&#x5176;&#x5B9E;Volley&#x5728;&#x540E;&#x9762;&#x7684;&#x7248;&#x672C;&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x652F;&#x6301;Https&#x8BF7;&#x6C42;&#x4E86;&#x3002;&#x5177;&#x4F53;&#x554A;&#xFF0C;&#x8FD8;&#x662F;&#x627E;&#x5EA6;&#x5A18;&#x770B;&#x5427;&#xFF0C;&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x8BB2;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x3002;</p>
 </blockquote>
 <hr>
-<h3 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h3><blockquote>
+<h3 id="2-&#x51C6;&#x5907;&#x5DE5;&#x4F5C;"><a href="#2-&#x51C6;&#x5907;&#x5DE5;&#x4F5C;" class="headerlink" title="2.&#x51C6;&#x5907;&#x5DE5;&#x4F5C;"></a>2.&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</h3><blockquote>
 <ul>
-<li><p>生成BC证书</p>
+<li><p>&#x751F;&#x6210;BC&#x8BC1;&#x4E66;</p>
 </li>
-<li><p>Android 需要BC证书，而Java的keytool不提供BKS格式，因此需要使用其他工具生成。</p>
+<li><p>Android &#x9700;&#x8981;BC&#x8BC1;&#x4E66;&#xFF0C;&#x800C;Java&#x7684;keytool&#x4E0D;&#x63D0;&#x4F9B;BKS&#x683C;&#x5F0F;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x5176;&#x4ED6;&#x5DE5;&#x5177;&#x751F;&#x6210;&#x3002;</p>
 </li>
-<li><p>这里使用Java扩展算法和辅助工具（bcprov-ext-jdk15on-146.jar ）来生成BKS文件。**在这里要说下，我是用了更高版本的jar文件来生成BKS文件，但是总是会出现下面的错误：</p>
+<li><p>&#x8FD9;&#x91CC;&#x4F7F;&#x7528;Java&#x6269;&#x5C55;&#x7B97;&#x6CD5;&#x548C;&#x8F85;&#x52A9;&#x5DE5;&#x5177;&#xFF08;bcprov-ext-jdk15on-146.jar &#xFF09;&#x6765;&#x751F;&#x6210;BKS&#x6587;&#x4EF6;&#x3002;**&#x5728;&#x8FD9;&#x91CC;&#x8981;&#x8BF4;&#x4E0B;&#xFF0C;&#x6211;&#x662F;&#x7528;&#x4E86;&#x66F4;&#x9AD8;&#x7248;&#x672C;&#x7684;jar&#x6587;&#x4EF6;&#x6765;&#x751F;&#x6210;BKS&#x6587;&#x4EF6;&#xFF0C;&#x4F46;&#x662F;&#x603B;&#x662F;&#x4F1A;&#x51FA;&#x73B0;&#x4E0B;&#x9762;&#x7684;&#x9519;&#x8BEF;&#xFF1A;</p>
 </li>
 </ul>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.ClassNotFoundException: org.bouncycastle.jce.provider.BouncyCastleProvid</div></pre></td></tr></table></figure>
 <blockquote>
 <ul>
-<li><p>如果找不到bcprov-ext-jdk15on-146.jar，可以<a href="https://pan.baidu.com/s/1o8xx7zc" target="_blank" rel="external">下载</a>，提取码为8fvq。</p>
+<li><p>&#x5982;&#x679C;&#x627E;&#x4E0D;&#x5230;bcprov-ext-jdk15on-146.jar&#xFF0C;&#x53EF;&#x4EE5;<a href="https://pan.baidu.com/s/1o8xx7zc" target="_blank" rel="external">&#x4E0B;&#x8F7D;</a>&#xFF0C;&#x63D0;&#x53D6;&#x7801;&#x4E3A;8fvq&#x3002;</p>
 </li>
-<li><p>下载完成后，不用进行任何配置。将下载的jar文件放到自己需要生成BKS的文件夹中，使用命令行工具进入文件夹中，使用命令：</p>
+<li><p>&#x4E0B;&#x8F7D;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x4E0D;&#x7528;&#x8FDB;&#x884C;&#x4EFB;&#x4F55;&#x914D;&#x7F6E;&#x3002;&#x5C06;&#x4E0B;&#x8F7D;&#x7684;jar&#x6587;&#x4EF6;&#x653E;&#x5230;&#x81EA;&#x5DF1;&#x9700;&#x8981;&#x751F;&#x6210;BKS&#x7684;&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#xFF0C;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;&#x8FDB;&#x5165;&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#xFF0C;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#xFF1A;</p>
 </li>
 </ul>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -importcert -keystore 生成的bks文件名.bks -file 证书文件.crt -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath &quot;bcprov-ext-jdk16-146.jar&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -importcert -keystore &#x751F;&#x6210;&#x7684;bks&#x6587;&#x4EF6;&#x540D;.bks -file &#x8BC1;&#x4E66;&#x6587;&#x4EF6;.crt -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath &quot;bcprov-ext-jdk16-146.jar&quot;</div></pre></td></tr></table></figure>
 <blockquote>
 <ul>
-<li><p>之后会出现：<img src="../../images/volley/11.png" alt="提示">，输入两次密钥口令即可。</p>
+<li><p>&#x4E4B;&#x540E;&#x4F1A;&#x51FA;&#x73B0;&#xFF1A;<img src="/2016/12/23/Android-Volley-Https/volley/11.png" alt="&#x63D0;&#x793A;">&#xFF0C;&#x8F93;&#x5165;&#x4E24;&#x6B21;&#x5BC6;&#x94A5;&#x53E3;&#x4EE4;&#x5373;&#x53EF;&#x3002;</p>
 </li>
-<li><p>然后会提示是否信任输入y即可生成BKS文件。<img src="../../images/volley/22.png" alt="完成"></p>
+<li><p>&#x7136;&#x540E;&#x4F1A;&#x63D0;&#x793A;&#x662F;&#x5426;&#x4FE1;&#x4EFB;&#x8F93;&#x5165;y&#x5373;&#x53EF;&#x751F;&#x6210;BKS&#x6587;&#x4EF6;&#x3002;<img src="/2016/12/23/Android-Volley-Https/volley/22.png" alt="&#x5B8C;&#x6210;"></p>
 </li>
-<li><p>OK，现在已经完成了准备工作，下面就是修改Volley的源码进行实现。</p>
+<li><p>OK&#xFF0C;&#x73B0;&#x5728;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x4E86;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x4FEE;&#x6539;Volley&#x7684;&#x6E90;&#x7801;&#x8FDB;&#x884C;&#x5B9E;&#x73B0;&#x3002;</p>
 </li>
 </ul>
 </blockquote>
 <hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">欲知详情，且听下回分解。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#x6B32;&#x77E5;&#x8BE6;&#x60C5;&#xFF0C;&#x4E14;&#x542C;&#x4E0B;&#x56DE;&#x5206;&#x89E3;&#x3002;</div></pre></td></tr></table></figure>
       
 
       
@@ -209,7 +209,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/23/volley/Android-Volley-Https/">展开全文 >></a>
+          <a class="article-more-a" href="/2016/12/23/Android-Volley-Https/">展开全文 >></a>
         </p>
       
 
@@ -246,7 +246,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
