@@ -257,7 +257,7 @@
               
                 
                 <a class="post-title-link" href="/2017/02/22/mvp/" itemprop="url">
-                  未命名
+                  Android mvp以及Rxjava和Retrofit框架的搭建
                 </a>
               
             
@@ -273,7 +273,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="post.created" itemprop="dateCreated datePublished" datetime="2017-02-22T00:29:45+08:00">
+              <time title="post.created" itemprop="dateCreated datePublished" datetime="2017-02-22T00:40:13+08:00">
                 2017-02-22
               </time>
             
@@ -311,9 +311,12 @@
       
         
           
-          
-title:Android mvp&#xFFFD;&#x53C;&#xFFFD;Rxjava&#xFFFD;&#xFFFD;Retrofit&#xFFFD;&#xFFFD;&#xFFFD;&#x735;&#x134;&#xEF68;1. &#x3AA;&#x2B2;&#xF4;&#x4AA;&#x2B9;&#xFFFD;&#xFFFD;mvp&#xFFFD;&#xFFFD;
-&#xFFFD;&#x6B4;&#xFFFD;&#x373;&#xFFFD;&#xFFFD;MVC&#xFFFD;&#x13C;&#x739;&#xFFFD;&#xFFFD;&#x423;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x2B9;&#xFFFD;&#xF5;&#xFFFD;View&#x368;&#xFFFD;&#xFFFD;&#x5B8;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;View&#xFFFD;&#xFFFD;layout&#xFFFD;&#xFFFD;&#xFFFD;&#x5A3;&#xFFFD;&#xFFFD;&#xFFFD;Controller&#xFFFD;&#xFFFD;&#x3AA;Activity&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;Activity&#xFFFD;&#xFFFD;&#x3AA;&#xFFFD;&#xFFFD;&#xFFFD;&#xFB;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x13D;&#xFFFD;&#xFFFD;&#xFFFD;&#x579;&#x2BE;&#xFFFD;&#xFFFD;Controller&#xFFFD;&#xFFFD;View&#xFFFD;&#xEE5;&#xFFFD;&#xFFFD;&#xFFFD;&#x3E3;&#xFFFD;&#x2B9;&#xFFFD;&#xF4;&#xFFFD;&#xFFFD;&#xBFF4;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x3B2;&#xFFFD;&#xFB;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xF4;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;MVP&#x123;&#x2BD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x2BE;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x777;&#xFFFD;&#xFFFD;&#xB8EC;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x4E6;&#xFFFD;&#xFF;&#xFFFD;&#xFFFD;&#x537;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x38EC;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#x4B2;&#xFFFD
+          1. &#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;mvp&#xFF1F;
+&#x5728;&#x4F20;&#x7EDF;&#x7684;MVC&#x7684;&#x67B6;&#x6784;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x6240;&#x4F7F;&#x7528;&#x7684;View&#x901A;&#x5E38;&#x6307;&#x7684;&#x662F;View&#xFF08;layout&#x5E03;&#x5C40;&#xFF09;&#xFF0C;Controller&#x5219;&#x4E3A;Activity&#x3002;&#x4F46;&#x662F;Activity&#x4F5C;&#x4E3A;&#x4E0E;&#x7528;&#x6237;&#x4EA4;&#x4E92;&#x7684;&#x754C;&#x9762;&#x5C55;&#x793A;&#xFF0C;Controller&#x548C;View&#x76F8;&#x4E92;&#x8026;&#x5408;&#xFF0C;&#x4F7F;&#x5F97;&#x4EE3;&#x7801;&#x770B;&#x8D77;&#x6765;&#x5C42;&#x6B21;&#x5E76;&#x6CA1;&#x6709;&#x90A3;&#x4E48;&#x5206;&#x660E;&#x3002;&#x800C;MVP&#x6A21;&#x5F0F;&#x53EF;&#x4EE5;&#x8BA9;&#x663E;&#x793A;&#x754C;&#x9762;&#x548C;&#x6570;&#x636E;&#x5206;&#x79BB;&#xFF0C;&#x5F00;&#x53D1;&#x7684;&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x5206;&#x79BB;&#x81F3;&#x5C11;&#x4E09;&#x5C42;&#xFF0C;&#x8FD9;&#x6837;&#x4E5F;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x72EC;&#x7ACB;&#x6D4B;&#x8BD5;&#x3002;&#x6709;&#x4E86;MVP&#x5C31;&#x53EF;&#x4EE5;&#x4ECE;Activity&#x4E2D;&#x5206;&#x79BB;&#x5927;&#x90E8;&#x5206;&#x4EE3;&#x7801;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x7528;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x53EF;&#x4EE5;&#x5BF9;&#x6BCF;&#x4E2A;&#x6A21;&#x5757;&#x8FDB;&#x884C;&#x5355;&#x72EC;&#x6D4B;&#x8BD5;&#x4E86;&#x3002;
+
+
+2. &#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;Rxjava&#xFF1F;
+&#x5173;&#x4E8E;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;Rxjava&#xFF0C;&#x8BB8;&#x591A;&#x4EBA;&#x90FD;&#x7ED9;&#x51FA;&#x
           ...
           <!--noindex-->
           <div class="post-more-link text-center">
