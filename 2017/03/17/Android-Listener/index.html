@@ -1,0 +1,692 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nick, Ksuu" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1.&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x6700;&amp;#x8FD1;&amp;#x90FD;&amp;#x5728;&amp;#x770B;framework&amp;#x7684;&amp;#x4E1C;&amp;#x897F;&amp;#xFF0C;&amp;#x4E5F;&amp;#x51E0;&amp;#x5929;&amp;#x6CA1;&amp;#x6709;&amp;#x5199;&amp;#x4EC0;&amp;#x4E48;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 事件统计">
+<meta property="og:url" content="https://mcksuu.github.io/2017/03/17/Android-Listener/index.html">
+<meta property="og:site_name" content="McKsuu">
+<meta property="og:description" content="1.&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x6700;&amp;#x8FD1;&amp;#x90FD;&amp;#x5728;&amp;#x770B;framework&amp;#x7684;&amp;#x4E1C;&amp;#x897F;&amp;#xFF0C;&amp;#x4E5F;&amp;#x51E0;&amp;#x5929;&amp;#x6CA1;&amp;#x6709;&amp;#x5199;&amp;#x4EC0;&amp;#x4E48;&amp;#x">
+<meta property="og:image" content="https://mcksuu.github.io/2017/03/17/Android-Listener/reflect_result.png">
+<meta property="og:image" content="https://mcksuu.github.io/2017/03/17/Android-Listener/result2.png">
+<meta property="og:updated_time" content="2017-03-17T15:40:44.796Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 事件统计">
+<meta name="twitter:description" content="1.&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x6700;&amp;#x8FD1;&amp;#x90FD;&amp;#x5728;&amp;#x770B;framework&amp;#x7684;&amp;#x4E1C;&amp;#x897F;&amp;#xFF0C;&amp;#x4E5F;&amp;#x51E0;&amp;#x5929;&amp;#x6CA1;&amp;#x6709;&amp;#x5199;&amp;#x4EC0;&amp;#x4E48;&amp;#x">
+<meta name="twitter:image" content="https://mcksuu.github.io/2017/03/17/Android-Listener/reflect_result.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mcksuu.github.io/2017/03/17/Android-Listener/"/>
+
+
+
+
+
+  <title> Android 事件统计 | McKsuu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">McKsuu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">McKsuu</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://mcksuu.github.io/2017/03/17/Android-Listener/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Nick Kang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/favicon.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="McKsuu">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="McKsuu" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 事件统计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="post.created" itemprop="dateCreated datePublished" datetime="2017-03-17T21:00:51+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h3 id="1-&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"><a href="#1-&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;" class="headerlink" title="1.&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"></a>1.&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;</h3><blockquote>
+<p>&#x6700;&#x8FD1;&#x90FD;&#x5728;&#x770B;framework&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x4E5F;&#x51E0;&#x5929;&#x6CA1;&#x6709;&#x5199;&#x4EC0;&#x4E48;&#x4E1C;&#x897F;&#xFF0C;&#x4ECA;&#x5929;&#x6709;&#x70B9;&#x65F6;&#x95F4;&#x5199;&#x4E0B;&#x4E0A;&#x6B21;&#x9762;&#x8BD5;&#x9047;&#x5230;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x3002;&#x95EE;&#x9898;&#x5927;&#x6982;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x9700;&#x8981;&#x7EDF;&#x8BA1;&#x9875;&#x9762;&#x7684;&#x70B9;&#x51FB;&#x4E8B;&#x4EF6;&#xFF0C;&#x5373;&#x6DFB;&#x52A0;&#x57CB;&#x70B9;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;&#xFF0C;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xFF1F;&#x6211;&#x5F53;&#x65F6;&#x56DE;&#x7B54;&#x7684;&#x662F;<strong>&#x53CD;&#x5C04;&#x52A0;&#x4EE3;&#x7406;</strong>&#x53BB;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x3002;&#x6709;&#x670B;&#x53CB;&#x8BF4;&#xFF0C;&#x8FD9;&#x4E0D;&#x662F;&#x5F88;&#x7B80;&#x5355;&#x561B;&#xFF0C;&#x76F4;&#x63A5;&#x7528;&#x4EE3;&#x7406;&#x6A21;&#x5F0F;&#x5C31;OK&#x4E86;&#x554A;&#xFF0C;&#x5E72;&#x561B;&#x8FD8;&#x53CD;&#x5C04;&#x3002;&#x7684;&#x786E;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x9879;&#x76EE;&#x521D;&#x671F;&#x5C31;&#x786E;&#x5B9A;&#x4E86;&#x8FD9;&#x4E2A;&#x9700;&#x6C42;&#x7684;&#x8BDD;&#xFF0C;&#x6211;&#x60F3;&#x5927;&#x90E8;&#x5206;&#x4EBA;&#x90FD;&#x4F1A;&#x60F3;&#x5230;&#x7528;&#x4EE3;&#x7406;&#x6A21;&#x5F0F;&#x6765;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x9879;&#x76EE;&#x5DF2;&#x7ECF;&#x7A33;&#x5B9A;&#x8FD0;&#x884C;&#x4E86;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x5462;&#xFF1F;&#x6211;&#x4EEC;&#x4E0D;&#x53EF;&#x80FD;&#x628A;&#x6BCF;&#x4E2A;&#x4E8B;&#x4EF6;&#x90FD;&#x91CD;&#x65B0;&#x66FF;&#x6362;&#x6210;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7406;&#x7C7B;&#x5427;&#xFF1F;&#x8FD9;&#x6837;&#x91CD;&#x590D;&#x7684;&#x5DE5;&#x4F5C;&#x592A;&#x6CA1;&#x6709;&#x6548;&#x7387;&#x4E86;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<strong>&#x53CD;&#x5C04;&#x52A0;&#x4EE3;&#x7406;</strong>&#x6280;&#x672F;&#x6765;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x3002;</p>
+</blockquote>
+<hr>
+<h3 id="2-&#x53CD;&#x5C04;&#x548C;&#x4EE3;&#x7406;"><a href="#2-&#x53CD;&#x5C04;&#x548C;&#x4EE3;&#x7406;" class="headerlink" title="2.&#x53CD;&#x5C04;&#x548C;&#x4EE3;&#x7406;"></a>2.&#x53CD;&#x5C04;&#x548C;&#x4EE3;&#x7406;</h3><blockquote>
+<p>&#x53CD;&#x5C04;&#x673A;&#x5236;&#x662F;&#x5728;&#x8FD0;&#x884C;&#x72B6;&#x6001;&#x4E2D;&#xFF0C;&#x5BF9;&#x4E8E;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x7C7B;&#xFF0C;&#x90FD;&#x80FD;&#x591F;&#x77E5;&#x9053;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#xFF1B;&#x5BF9;&#x4E8E;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x90FD;&#x80FD;&#x591F;&#x8C03;&#x7528;&#x5B83;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x548C;&#x5C5E;&#x6027;&#xFF1B;</p>
+<p>&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x5224;&#x65AD;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x6240;&#x5C5E;&#x7684;&#x7C7B;&#xFF1B;</p>
+<p>&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x6784;&#x9020;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x5BF9;&#x8C61;&#xFF1B;</p>
+<p>&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x5224;&#x65AD;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x7C7B;&#x6240;&#x5177;&#x6709;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x548C;&#x65B9;&#x6CD5;&#xFF1B;</p>
+<p>&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x8C03;&#x7528;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#xFF1B;</p>
+<p>&#x751F;&#x6210;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x6765;&#x8BB2;&#x89E3;&#x4E0B;&#x53CD;&#x5C04;&#x7684;&#x7528;&#x9014;&#x3002;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">package com.nick.model;</div><div class="line"></div><div class="line">//&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x5B9E;&#x4F53;&#x7C7B;UserModel</div><div class="line">public class UserModel {</div><div class="line">    private String userName;</div><div class="line">    private String password;</div><div class="line">    private UserInfoModel userInfoModel;</div><div class="line"></div><div class="line">    public String getUserName() {</div><div class="line">        return userName;</div><div class="line">    }</div><div class="line"></div><div class="line">    public void setUserName(String userName) {</div><div class="line">        this.userName = userName;</div><div class="line">    }</div><div class="line"></div><div class="line">    public String getPassword() {</div><div class="line">        return password;</div><div class="line">    }</div><div class="line"></div><div class="line">    public void setPassword(String password) {</div><div class="line">        this.password = password;</div><div class="line">    }</div><div class="line"></div><div class="line">    public UserInfoModel getUserInfoModel() {</div><div class="line">        return userInfoModel;</div><div class="line">    }</div><div class="line"></div><div class="line">    public void setUserInfoModel(UserInfoModel userInfoModel) {</div><div class="line">        this.userInfoModel = userInfoModel;</div><div class="line">    }</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String toString() {</div><div class="line">        String result = &quot;userName = &quot; + userName + &quot; password = &quot; + password + &quot; &quot; + userInfoModel.toString();</div><div class="line">        return result;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x53E6;&#x4E00;&#x4E2A;Model</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">package com.nick.model;</div><div class="line"></div><div class="line">public class UserInfoModel {</div><div class="line">    private int age;</div><div class="line">    private String birth;</div><div class="line"></div><div class="line">    public int getAge() {</div><div class="line">        return age;</div><div class="line">    }</div><div class="line"></div><div class="line">    public void setAge(int age) {</div><div class="line">        this.age = age;</div><div class="line">    }</div><div class="line"></div><div class="line">    public String getBirth() {</div><div class="line">        return birth;</div><div class="line">    }</div><div class="line"></div><div class="line">    public void setBirth(String birth) {</div><div class="line">        this.birth = birth;</div><div class="line">    }</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String toString() {</div><div class="line">        return &quot;age = &quot; + age + &quot; birth = &quot; + birth;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) {</div><div class="line">        UserInfoModel userInfoModel = new UserInfoModel();</div><div class="line">        userInfoModel.setAge(10);</div><div class="line">        userInfoModel.setBirth(&quot;2017-03-17 17:08:56&quot;);</div><div class="line">        UserModel userModel = new UserModel();</div><div class="line">        userModel.setUserName(&quot;&#x5C0F;&#x7EA2;&quot;);</div><div class="line">        userModel.setPassword(&quot;password&quot;);</div><div class="line">        userModel.setUserInfoModel(userInfoModel);</div><div class="line"></div><div class="line">        System.out.println(userModel.toString());</div><div class="line"></div><div class="line">        // &#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x4FEE;&#x6539;&#x5C5E;&#x6027;</div><div class="line">        try {</div><div class="line">            Class userModelRe = Class.forName(UserModel.class.getName());</div><div class="line">            Field userName = userModelRe.getDeclaredField(&quot;userName&quot;);</div><div class="line">            userName.setAccessible(true);// setAccessible(true)&#x7684;&#x65B9;&#x5F0F;&#x5173;&#x95ED;&#x5B89;&#x5168;&#x68C0;&#x67E5;&#x5C31;&#x53EF;&#x4EE5;&#x8FBE;&#x5230;&#x63D0;&#x5347;&#x53CD;&#x5C04;&#x901F;&#x5EA6;&#x7684;&#x76EE;&#x7684;</div><div class="line">            userName.set(userModel, &quot;&#x5C0F;&#x660E;&quot;);</div><div class="line">        } catch (ClassNotFoundException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        } catch (NoSuchFieldException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        } catch (SecurityException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        } catch (IllegalArgumentException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        } catch (IllegalAccessException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        }</div><div class="line">        System.out.println(userModel.toString());</div><div class="line">    }</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x8FD0;&#x884C;&#x7ED3;&#x679C;&#x4E3A;&#xFF1A;<img src="/2017/03/17/Android-Listener/reflect_result.png" alt="&#x8FD0;&#x884C;&#x7ED3;&#x679C;"></p>
+<p>&#x4EE3;&#x7406;&#x6A21;&#x5F0F;&#x7684;&#x8BDD;&#x5206;&#x4E3A;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x548C;&#x9759;&#x6001;&#x4EE3;&#x7406;&#xFF0C;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x5230;&#x4E86;&#x9759;&#x6001;&#x4EE3;&#x7406;&#xFF0C;&#x8FD9;&#x91CC;&#x4E0D;&#x505A;&#x8FC7;&#x591A;&#x8D58;&#x8FF0;&#x3002;</p>
+</blockquote>
+<hr>
+<h3 id="3-&#x51C6;&#x5907;&#x5DE5;&#x4F5C;"><a href="#3-&#x51C6;&#x5907;&#x5DE5;&#x4F5C;" class="headerlink" title="3. &#x51C6;&#x5907;&#x5DE5;&#x4F5C;"></a>3. &#x51C6;&#x5907;&#x5DE5;&#x4F5C;</h3><blockquote>
+<p>&#x9996;&#x5148;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x6E90;&#x7801;&#x6765;&#x770B;&#x6211;&#x4EEC;&#x7684;&#x70B9;&#x51FB;&#x4E8B;&#x4EF6;&#x662F;&#x5982;&#x4F55;&#x6267;&#x884C;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x770B;setOnClickListener&#x600E;&#x4E48;&#x5B9E;&#x73B0;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public void setOnClickListener(@Nullable OnClickListener l) {</div><div class="line">    if (!isClickable()) {</div><div class="line">        setClickable(true);</div><div class="line">    }</div><div class="line">    getListenerInfo().mOnClickListener = l;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x91CC;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x5C31;&#x662F;&#x628A;&#x6211;&#x4EEC;&#x7684;OnClickListener&#x8D4B;&#x503C;&#x7ED9;listenerInfo&#x5BF9;&#x50CF;&#x7684;mOnClickListener&#x3002;&#x7B80;&#x5355;&#x8BF4;&#x4E0B;&#xFF0C;&#x8FD9;&#x91CC;&#x8FDB;&#x884C;&#x4E86; <strong>isClickable()</strong> &#x5224;&#x65AD;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x53EF;&#x4EE5;&#x70B9;&#x51FB;&#xFF0C;&#x5C31;&#x8BBE;&#x7F6E;&#x4E3A;&#x53EF;&#x70B9;&#x51FB;&#x3002;&#x63A5;&#x7740;&#x6211;&#x4EEC;&#x770B;&#x4E0B;listenerInfo&#x53C8;&#x662F;&#x4EC0;&#x4E48;&#x9B3C;&#xFF1A;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">ListenerInfo getListenerInfo() {</div><div class="line">    if (mListenerInfo != null) {</div><div class="line">        return mListenerInfo;</div><div class="line">    }</div><div class="line">    mListenerInfo = new ListenerInfo();</div><div class="line">    return mListenerInfo;</div><div class="line">}</div><div class="line"></div><div class="line">static class ListenerInfo {</div><div class="line">    protected OnFocusChangeListener mOnFocusChangeListener;</div><div class="line"></div><div class="line">    private ArrayList&lt;OnLayoutChangeListener&gt; mOnLayoutChangeListeners;</div><div class="line"></div><div class="line">    protected OnScrollChangeListener mOnScrollChangeListener;</div><div class="line"></div><div class="line">    private CopyOnWriteArrayList&lt;OnAttachStateChangeListener&gt; mOnAttachStateChangeListeners;</div><div class="line"></div><div class="line">    public OnClickListener mOnClickListener;</div><div class="line"></div><div class="line">    protected OnLongClickListener mOnLongClickListener;</div><div class="line"></div><div class="line">    protected OnContextClickListener mOnContextClickListener;</div><div class="line"></div><div class="line">    protected OnCreateContextMenuListener mOnCreateContextMenuListener;</div><div class="line"></div><div class="line">    private OnKeyListener mOnKeyListener;</div><div class="line"></div><div class="line">    private OnTouchListener mOnTouchListener;</div><div class="line"></div><div class="line">    private OnHoverListener mOnHoverListener;</div><div class="line"></div><div class="line">    private OnGenericMotionListener mOnGenericMotionListener;</div><div class="line"></div><div class="line">    private OnDragListener mOnDragListener;</div><div class="line"></div><div class="line">    private OnSystemUiVisibilityChangeListener mOnSystemUiVisibilityChangeListener;</div><div class="line"></div><div class="line">    OnApplyWindowInsetsListener mOnApplyWindowInsetsListener;</div><div class="line">}</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x901A;&#x8FC7;&#x6E90;&#x7801;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;ListenerInfo&#x662F;&#x4E00;&#x4E9B;&#x4E8B;&#x4EF6;&#x76D1;&#x542C;&#x7684;&#x7C7B;&#x3002;&#x90A3;&#x6211;&#x4EEC;&#x7684;OnClick&#x53C8;&#x662F;&#x5728;&#x54EA;&#x91CC;&#x8C03;&#x7528;&#x7684;&#x5462;&#xFF1F;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">private final class PerformClick implements Runnable {</div><div class="line">    @Override</div><div class="line">    public void run() {</div><div class="line">        performClick();</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">public boolean performClick() {</div><div class="line">    final boolean result;</div><div class="line">    final ListenerInfo li = mListenerInfo;</div><div class="line">    if (li != null &amp;&amp; li.mOnClickListener != null) {</div><div class="line">        playSoundEffect(SoundEffectConstants.CLICK);</div><div class="line">        li.mOnClickListener.onClick(this);</div><div class="line">        result = true;</div><div class="line">    } else {</div><div class="line">        result = false;</div><div class="line">    }</div><div class="line"></div><div class="line">    sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);</div><div class="line">    return result;</div><div class="line">}</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x662F;&#x7528;&#x8FC7;PerformClick&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x53BB;&#x8C03;&#x7528;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x95EE;&#x9898;&#x6765;&#x4E86;&#xFF0C;&#x8FD9;&#x4E2A;PerformClick&#x53C8;&#x5728;&#x54EA;&#x91CC;&#x8C03;&#x7528;&#x4E86;&#x5462;&#xFF1F;&#x8FD8;&#x662F;&#x7EE7;&#x7EED;&#x770B;&#x6E90;&#x7801;&#xFF1A;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">public boolean onTouchEvent(MotionEvent event) {</div><div class="line">       </div><div class="line">    if (((viewFlags &amp; CLICKABLE) == CLICKABLE ||</div><div class="line">            (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE) ||</div><div class="line">            (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE) {</div><div class="line">        switch (action) {</div><div class="line">            case MotionEvent.ACTION_UP:</div><div class="line">                boolean prepressed = (mPrivateFlags &amp; PFLAG_PREPRESSED) != 0;</div><div class="line">                if ((mPrivateFlags &amp; PFLAG_PRESSED) != 0 || prepressed) {</div><div class="line">                    // take focus if we don&apos;t have it already and we should in</div><div class="line">                    // touch mode.</div><div class="line">                    boolean focusTaken = false;</div><div class="line">                    if (isFocusable() &amp;&amp; isFocusableInTouchMode() &amp;&amp; !isFocused()) {</div><div class="line">                        focusTaken = requestFocus();</div><div class="line">                    }</div><div class="line"></div><div class="line">                    if (prepressed) {</div><div class="line">                        // The button is being released before we actually</div><div class="line">                        // showed it as pressed.  Make it show the pressed</div><div class="line">                        // state now (before scheduling the click) to ensure</div><div class="line">                        // the user sees it.</div><div class="line">                        setPressed(true, x, y);</div><div class="line">                   }</div><div class="line"></div><div class="line">                    if (!mHasPerformedLongPress &amp;&amp; !mIgnoreNextUpEvent) {</div><div class="line">                        // This is a tap, so remove the longpress check</div><div class="line">                        removeLongPressCallback();</div><div class="line"></div><div class="line">                        // Only perform take click actions if we were in the pressed state</div><div class="line">                        if (!focusTaken) {</div><div class="line">                            // Use a Runnable and post this rather than calling</div><div class="line">                            // performClick directly. This lets other visual state</div><div class="line">                            // of the view update before click actions start.</div><div class="line">                            if (mPerformClick == null) {</div><div class="line">                                mPerformClick = new PerformClick();</div><div class="line">                            }</div><div class="line">                            if (!post(mPerformClick)) {</div><div class="line">                                performClick();</div><div class="line">                            }</div><div class="line">                        }</div><div class="line">                    }</div><div class="line"></div><div class="line">                    if (mUnsetPressedState == null) {</div><div class="line">                        mUnsetPressedState = new UnsetPressedState();</div><div class="line">                    }</div><div class="line"></div><div class="line">                    if (prepressed) {</div><div class="line">                        postDelayed(mUnsetPressedState,</div><div class="line">                                ViewConfiguration.getPressedStateDuration());</div><div class="line">                    } else if (!post(mUnsetPressedState)) {</div><div class="line">                        // If the post failed, unpress right now</div><div class="line">                        mUnsetPressedState.run();</div><div class="line">                    }</div><div class="line"></div><div class="line">                    removeTapCallback();</div><div class="line">                }</div><div class="line">                mIgnoreNextUpEvent = false;</div><div class="line">                break;</div><div class="line">                ...</div><div class="line">                ...</div><div class="line">    }</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x4ECE;&#x4EE3;&#x7801;&#x91CC;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;performClick&#x662F;&#x5728;onTouchEvent&#x4E2D;&#x7684;MotionEvent.ACTION_UP&#x8FDB;&#x884C;&#x5224;&#x65AD;&#x5E76;&#x6267;&#x884C;&#x3002;&#x597D;&#x50CF;&#x6709;&#x70B9;&#x626F;&#x8FDC;&#x4E86;&#xFF0C;&#x56DE;&#x8FC7;&#x5934;&#x6765;&#x6211;&#x4EEC;&#x770B;&#x4E0B;&#x5E94;&#x8BE5;&#x600E;&#x6837;&#x53BB;&#x53CD;&#x5C04;&#x83B7;&#x5F97;mListenerInfo&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#xFF0C;&#x5E76;&#x4E14;&#x83B7;&#x5F97;mListenerInfo&#x4E2D;&#x7684;mOnClickListener,&#x7136;&#x540E;&#x5C06;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7406;&#x7C7B;&#x8D4B;&#x503C;&#x8FDB;&#x53BB;&#x3002;</p>
+</blockquote>
+<hr>
+<h3 id="4-&#x4EE3;&#x7801;&#x5B9E;&#x73B0;"><a href="#4-&#x4EE3;&#x7801;&#x5B9E;&#x73B0;" class="headerlink" title="4.&#x4EE3;&#x7801;&#x5B9E;&#x73B0;"></a>4.&#x4EE3;&#x7801;&#x5B9E;&#x73B0;</h3><blockquote>
+<p>&#x539F;&#x7406;&#x4E0A;&#x9762;&#x6211;&#x4EEC;&#x90FD;&#x8BB2;&#x4E86;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x662F;&#x4EE3;&#x7801;&#x7684;&#x5B9E;&#x73B0;&#x90E8;&#x5206;&#xFF1A;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line">public class HookUtils {</div><div class="line">    private static final String VIEW_CLASS = &quot;android.view.View&quot;;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * @param mActivity</div><div class="line">     * @param onClickListener</div><div class="line">     */</div><div class="line">    public static void hookListener(Activity mActivity, OnClickListener onClickListener) {</div><div class="line">        if (mActivity != null) {</div><div class="line">            View decorView = mActivity.getWindow().getDecorView();</div><div class="line">            getView(decorView, onClickListener);</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x9012;&#x5F52;&#x8FDB;&#x884C;viewHook</div><div class="line">     * @param view</div><div class="line">     * @param onClickListener</div><div class="line">     */</div><div class="line">    private static void getView(View view, OnClickListener onClickListener) {</div><div class="line">        //&#x9012;&#x5F52;&#x904D;&#x5386;&#xFF0C;&#x5224;&#x65AD;&#x5F53;&#x524D;view&#x662F;&#x4E0D;&#x662F;ViewGroup&#xFF0C;&#x5982;&#x679C;&#x662F;&#x7EE7;&#x7EED;&#x904D;&#x5386;&#xFF0C;&#x77E5;&#x9053;&#x4E0D;&#x662F;&#x4E3A;&#x6B62;</div><div class="line">        if (view instanceof ViewGroup) {</div><div class="line">            for (int i = 0; i &lt; ((ViewGroup) view).getChildCount(); i++) {</div><div class="line">                getView(((ViewGroup) view).getChildAt(i), onClickListener);</div><div class="line">            }</div><div class="line">        }</div><div class="line">        viewHook(view, onClickListener);</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x5C06;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7406;&#x7C7B;&#x66FF;&#x6362;&#x539F;&#x6765;&#x7684;onClickListener</div><div class="line">     *</div><div class="line">     * @param view</div><div class="line">     * @param onClickListener</div><div class="line">     */</div><div class="line">    private static void viewHook(View view, OnClickListener onClickListener) {</div><div class="line">        try {</div><div class="line">            Class viewClass = Class.forName(VIEW_CLASS);//&#x53CD;&#x5C04;&#x521B;&#x5EFA;View</div><div class="line">            Field listenerInfoField = viewClass.getDeclaredField(&quot;mListenerInfo&quot;);//&#x83B7;&#x5F97;View&#x5C5E;&#x6027;mListenerInfo</div><div class="line">            listenerInfoField.setAccessible(true);</div><div class="line">            Object mListenerInfo = listenerInfoField.get(view);//ListenerInfo==&gt;&gt;View&#x5BF9;&#x8C61;&#x4E2D;&#x7684;mListenerInfo&#x7684;&#x5B9E;&#x4F8B;</div><div class="line"></div><div class="line">            if (mListenerInfo != null) {</div><div class="line">                Class listenerInfo2 = Class.forName(&quot;android.view.View$ListenerInfo&quot;);//&#x53CD;&#x5C04;&#x521B;&#x5EFA;ListenerInfo</div><div class="line">                Field onClickListenerFiled = listenerInfo2.getDeclaredField(&quot;mOnClickListener&quot;);//&#x83B7;&#x5F97;ListenerInfo&#x5C5E;&#x6027;mOnClickListener</div><div class="line">                onClickListenerFiled.setAccessible(true);</div><div class="line">                View.OnClickListener o1 = (View.OnClickListener) onClickListenerFiled.get(mListenerInfo);//&#x83B7;&#x5F97;mListenerInfo&#x7684;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;mOnClickListener&#x5B9E;&#x4F8B;</div><div class="line">                if (o1 != null) {</div><div class="line">                    View.OnClickListener onClickListenerProxy = new OnClickListenerProxy(o1, onClickListener);</div><div class="line">                    onClickListenerFiled.set(mListenerInfo, onClickListenerProxy);//&#x8BBE;&#x7F6E;ListenerInfo&#x5C5E;&#x6027;mOnClickListener&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7406;listener</div><div class="line">                }</div><div class="line">            }</div><div class="line">        } catch (ClassNotFoundException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        } catch (NoSuchFieldException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        } catch (IllegalAccessException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line"></div><div class="line">    public interface OnClickListener {</div><div class="line">        void beforeInListener(View v);</div><div class="line">        void afterInListener(View v);</div><div class="line">    }</div><div class="line"></div><div class="line">    private static class OnClickListenerProxy implements View.OnClickListener {</div><div class="line">        private View.OnClickListener object;</div><div class="line">        private HookUtils.OnClickListener mListener;</div><div class="line"></div><div class="line">        public OnClickListenerProxy(View.OnClickListener object, HookUtils.OnClickListener listener) {</div><div class="line">            this.object = object;</div><div class="line">            this.mListener = listener;</div><div class="line">        }</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void onClick(View v) {</div><div class="line">            if (mListener != null) {</div><div class="line">                mListener.beforeInListener(v);</div><div class="line">            }</div><div class="line">            if (object != null) {</div><div class="line">                object.onClick(v);</div><div class="line">            }</div><div class="line">            if (mListener != null) {</div><div class="line">                mListener.afterInListener(v);</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x4EE3;&#x7801;&#x91CC;&#x5DF2;&#x7ECF;&#x6709;&#x5F88;&#x8BE6;&#x7EC6;&#x7684;&#x6CE8;&#x91CA;&#x4E86;&#xFF0C;&#x8FD9;&#x91CC;&#x5927;&#x6982;&#x89E3;&#x91CA;&#x4E0B;&#xFF1A;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x83B7;&#x5F97;&#x4E86;&#x5F53;&#x524D;View&#x7684;mListenerInfo&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#xFF0C;&#x5982;&#x679C;mListenerInfo&#x4E0D;&#x4E3A;&#x7A7A;&#x7684;&#x65F6;&#x5019;,&#x6211;&#x4EEC;&#x83B7;&#x5F97;mListenerInfo&#x4E2D;&#x7684;mOnClickListener,&#x7136;&#x540E;&#x5C06;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7406;&#x7C7B;&#x8D4B;&#x503C;&#x8FDB;&#x53BB;&#x3002;&#x5F53;&#x8C03;&#x7528;onClick&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x4F1A;&#x5148;&#x8C03;&#x7528;&#x6211;&#x4EEC;&#x7684;beforeInListener&#x4E4B;&#x540E;&#x662F;onClick&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x540E;&#x8C03;&#x7528;afterInListener&#x3002;</p>
+</blockquote>
+<hr>
+<h3 id="5-&#x6D4B;&#x8BD5;"><a href="#5-&#x6D4B;&#x8BD5;" class="headerlink" title="5.&#x6D4B;&#x8BD5;"></a>5.&#x6D4B;&#x8BD5;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) {</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        View view = findViewById(R.id.tv_1);</div><div class="line">        view.setTag(&quot;1&quot;);</div><div class="line">        view.setOnClickListener(this);</div><div class="line">        View view1 = findViewById(R.id.tv_2);</div><div class="line">        view1.setTag(&quot;2&quot;);</div><div class="line">        view1.setOnClickListener(this);</div><div class="line">        View view2 = findViewById(R.id.tv_3);</div><div class="line">        view2.setTag(&quot;3&quot;);</div><div class="line">        view2.setOnClickListener(this);</div><div class="line">        HookUtils.hookListener(this, this);//&#x8981;&#x5728;setOnxxxListener&#x4E4B;&#x540E;&#x8C03;&#x7528;</div><div class="line">    }</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onClick(View v) {</div><div class="line">        Log.d(&quot;fxxk&quot;, &quot;&#x70B9;&#x51FB;id=&quot; + v.getId() + &quot;v===&quot; + v.getTag().toString());</div><div class="line">    }</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void beforeInListener(View v) {</div><div class="line">        Log.d(&quot;fxxk&quot;, &quot;&#x70B9;&#x51FB;&#x524D;id=&quot; + v.getId() + &quot;v===&quot; + v.getTag().toString());</div><div class="line">    }</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void afterInListener(View v) {</div><div class="line">        Log.d(&quot;fxxk&quot;, &quot;&#x70B9;&#x51FB;&#x540E;id=&quot; + v.getId() + &quot;v===&quot; + v.getTag().toString());</div><div class="line">    }</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6EE1;&#x6000;&#x671F;&#x5F85;&#x7684;&#x7ED3;&#x679C;&#xFF1A;<br><img src="/2017/03/17/Android-Listener/result2.png" alt="&#x7ED3;&#x679C;"></p>
+</blockquote>
+<h3 id="6-&#x5199;&#x5728;&#x6700;&#x540E;"><a href="#6-&#x5199;&#x5728;&#x6700;&#x540E;" class="headerlink" title="6. &#x5199;&#x5728;&#x6700;&#x540E;"></a>6. &#x5199;&#x5728;&#x6700;&#x540E;</h3><blockquote>
+<p>&#x8FD9;&#x4E2A;&#x4EE3;&#x7801;&#x867D;&#x7136;&#x6BD4;&#x8F83;&#x5C11;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x8FD9;&#x91CC;&#x53EA;&#x5B9E;&#x73B0;&#x4E86;&#x5BF9;OnclickListener&#x7684;&#x76D1;&#x542C;&#xFF0C;&#x6211;&#x5C06;&#x4EE3;&#x7801;&#x4E0A;&#x4F20;&#x5230;<a href="https://github.com/mcksuu/android-hook-listener" target="_blank" rel="external">GitHub</a>&#xFF0C;&#x5E0C;&#x671B;&#x6709;&#x65F6;&#x95F4;&#x80FD;&#x591F;&#x5C06;&#x5176;&#x4ED6;&#x4E8B;&#x4EF6;&#x7684;&#x76D1;&#x542C;&#x4E5F;&#x5B8C;&#x6210;&#x3002;&#x4E0B;&#x9762;&#x5E94;&#x8BE5;&#x662F;&#x5BF9;Looper&#x548C;Handler&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF0C;&#x62BD;&#x7A7A;&#x5199;&#x4E0B;&#x81EA;&#x5DF1;&#x7684;&#x7406;&#x89E3;&#x3002;</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/01/android-bsdiff1/" rel="next" title="Android NDK之增量更新">
+                <i class="fa fa-chevron-left"></i> Android NDK之增量更新
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.png"
+               alt="Nick Kang" />
+          <p class="site-author-name" itemprop="name">Nick Kang</p>
+          <p class="site-description motion-element" itemprop="description">风轻云淡，勿忘本心</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">1.写在前面的话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-反射和代理"><span class="nav-number">2.</span> <span class="nav-text">2.反射和代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-准备工作"><span class="nav-number">3.</span> <span class="nav-text">3. 准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-代码实现"><span class="nav-number">4.</span> <span class="nav-text">4.代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-测试"><span class="nav-number">5.</span> <span class="nav-text">5.测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-写在最后"><span class="nav-number">6.</span> <span class="nav-text">6. 写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick Kang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
