@@ -1,0 +1,670 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nick, Ksuu" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1.&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x535A;&amp;#x5BA2;&amp;#x5F88;&amp;#x4E45;&amp;#x6CA1;&amp;#x6709;&amp;#x66F4;&amp;#x65B0;&amp;#x4E86;&amp;#xFF0C;&amp;#x4E0D;&amp;#x8FC7;&amp;#x8FD9;&amp;#x51E0;&amp;#x4E2A;&amp;#x6708;&amp;#x5012;&amp;#x662F;&amp;#x6C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构栈操作之迷宫求解">
+<meta property="og:url" content="https://mcksuu.github.io/2017/08/16/maze/index.html">
+<meta property="og:site_name" content="McKsuu">
+<meta property="og:description" content="1.&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x535A;&amp;#x5BA2;&amp;#x5F88;&amp;#x4E45;&amp;#x6CA1;&amp;#x6709;&amp;#x66F4;&amp;#x65B0;&amp;#x4E86;&amp;#xFF0C;&amp;#x4E0D;&amp;#x8FC7;&amp;#x8FD9;&amp;#x51E0;&amp;#x4E2A;&amp;#x6708;&amp;#x5012;&amp;#x662F;&amp;#x6C">
+<meta property="og:image" content="https://mcksuu.github.io/2017/08/16/maze/img/mzae1.png">
+<meta property="og:image" content="https://mcksuu.github.io/2017/08/16/maze/img/mzae2.png">
+<meta property="og:image" content="https://mcksuu.github.io/2017/08/16/maze/img/maze_result.png">
+<meta property="og:updated_time" content="2017-08-16T13:41:19.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构栈操作之迷宫求解">
+<meta name="twitter:description" content="1.&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x535A;&amp;#x5BA2;&amp;#x5F88;&amp;#x4E45;&amp;#x6CA1;&amp;#x6709;&amp;#x66F4;&amp;#x65B0;&amp;#x4E86;&amp;#xFF0C;&amp;#x4E0D;&amp;#x8FC7;&amp;#x8FD9;&amp;#x51E0;&amp;#x4E2A;&amp;#x6708;&amp;#x5012;&amp;#x662F;&amp;#x6C">
+<meta name="twitter:image" content="https://mcksuu.github.io/2017/08/16/maze/img/mzae1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mcksuu.github.io/2017/08/16/maze/"/>
+
+
+
+
+
+  <title> 数据结构栈操作之迷宫求解 | McKsuu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">McKsuu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">McKsuu</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://mcksuu.github.io/2017/08/16/maze/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Nick Kang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/favicon.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="McKsuu">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="McKsuu" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据结构栈操作之迷宫求解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="post.created" itemprop="dateCreated datePublished" datetime="2017-08-16T21:36:44+08:00">
+                2017-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"><a href="#1-&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;" class="headerlink" title="1.&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"></a>1.&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;</h2><ul>
+<li>&#x535A;&#x5BA2;&#x5F88;&#x4E45;&#x6CA1;&#x6709;&#x66F4;&#x65B0;&#x4E86;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x51E0;&#x4E2A;&#x6708;&#x5012;&#x662F;&#x6CA1;&#x6709;&#x505C;&#x4E0B;&#x5B66;&#x4E60;&#x7684;&#x811A;&#x6B65;&#x3002;&#x5148;&#x540E;&#x770B;&#x8FC7;&#x4E86;&#x300A;Android&#x5F00;&#x53D1;&#x827A;&#x672F;&#x63A2;&#x7D22;&#x300B;&#x3001;&#x300A;Java&#x865A;&#x62DF;&#x673A;&#x89C4;&#x8303;&#x300B;&#x4EE5;&#x53CA;&#x300A;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x5199;Java&#x865A;&#x62DF;&#x673A;&#x300B;&#xFF0C;&#x5E76;&#x4E14;&#x6309;&#x7167;&#x300A;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x5199;Java&#x865A;&#x62DF;&#x673A;&#x300B;&#x4E2D;&#x7684;&#x601D;&#x8DEF;&#x548C;&#x60F3;&#x6CD5;&#x5B9E;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;JVM&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x5B9E;&#x73B0;&#x7684;&#x76EE;&#x7684;&#x4E3B;&#x8981;&#x662F;&#x4E3A;&#x4E86;&#x52A0;&#x6DF1;&#x7406;&#x89E3;&#x3002;&#x8BE5;&#x4E66;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x662F;Go&#x8BED;&#x8A00;&#xFF0C;&#x6211;&#x5219;&#x4F7F;&#x7528;Java&#xFF08;&#x611F;&#x89C9;&#x6709;&#x70B9;&#x7528;&#x8F6E;&#x5B50;&#x627E;&#x8F6E;&#x5B50;&#x7684;&#x611F;&#x89C9;&#x30FD;(&#x2267;&#x25A1;&#x2266;)&#x30CE;&#xFF09;&#x3002;</li>
+<li>&#x8FD1;&#x671F;&#x5728;&#x770B;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x8BFB;&#x5230;&#x7B2C;&#x4E09;&#x7AE0;&#x6808;&#x3002;&#x91CC;&#x9762;&#x6709;&#x4E00;&#x5C0F;&#x8282;&#x662F;&#x8BB2;&#x6808;&#x64CD;&#x4F5C;&#x7684;&#xFF0C;&#x5305;&#x62EC;&#x4E86;&#x6570;&#x5236;&#x8F6C;&#x6362;&#x3001;&#x62EC;&#x53F7;&#x5339;&#x914D;&#x7684;&#x68C0;&#x9A8C;&#x3001;&#x884C;&#x7F16;&#x8F91;&#x7A0B;&#x5E8F;&#x4EE5;&#x53CA;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x95EE;&#x9898;&#x7B49;&#x3002;&#x72B9;&#x8BB0;&#x5F97;&#x5F53;&#x5E74;&#x4E0A;&#x5B66;&#x7684;&#x65F6;&#x5019;&#x5BF9;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x5F88;&#x662F;&#x597D;&#x5947;&#xFF0C;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x6808;&#x5C31;&#x80FD;&#x627E;&#x5230;&#x4E00;&#x6761;&#x901A;&#x5F80;&#x51FA;&#x53E3;&#x7684;&#x8DEF;&#x6210;&#x4E3A;&#x5F53;&#x65F6;&#x7684;&#x96BE;&#x9898;&#xFF08;&#x5F53;&#x7136;&#x4E5F;&#x5305;&#x62EC;&#x73B0;&#x5728;&#xFF09;&#x3002;</li>
+</ul>
+<hr>
+<h2 id="2-&#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x95EE;&#x9898;"><a href="#2-&#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x95EE;&#x9898;" class="headerlink" title="2. &#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x95EE;&#x9898;"></a>2. &#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x95EE;&#x9898;</h2><ul>
+<li>&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x95EE;&#x9898;&#x6211;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x7B80;&#x5355;&#x7684;&#x201C;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;&#x884C;&#x4E3A;&#x201D;&#xFF0C;&#x5373;&#x5F53;&#x6211;&#x5728;&#x5BFB;&#x627E;&#x8DEF;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6211;&#x53EA;&#x6309;&#x4E00;&#x4E2A;&#x65B9;&#x5411;&#x53BB;&#x5BFB;&#x627E;&#x51FA;&#x53E3;&#xFF0C;&#x5E76;&#x4E14;&#x6211;&#x5728;&#x8D70;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x7559;&#x4E0B;&#x75D5;&#x8FF9;&#x3002;&#x5F53;&#x6211;&#x78B0;&#x5230;&#x6B64;&#x8DEF;&#x4E0D;&#x901A;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x53BB;&#x66F4;&#x6539;&#x65B9;&#x5411;&#xFF0C;&#x5728;&#x53BB;&#x6309;&#x7167;&#x4E0A;&#x9762;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x3002;&#x5982;&#x679C;&#x8FD8;&#x662F;&#x4E0D;&#x884C;&#xFF0C;&#x6211;&#x5C31;&#x6807;&#x8BB0;&#x201C;&#x8FD9;&#x6761;&#x8DEF;&#x4E0D;&#x80FD;&#x901A;&#x5411;&#x7EC8;&#x70B9;&#x201D;&#x3002;&#x5982;&#x6B64;&#x53CD;&#x590D;&#xFF0C;&#x8981;&#x4E48;&#x6211;&#x90FD;&#x6807;&#x8BB0;&#x201C;&#x8FD9;&#x6761;&#x8DEF;&#x4E0D;&#x80FD;&#x901A;&#x5411;&#x7EC8;&#x70B9;&#x201D;&#xFF0C;&#x8981;&#x4E48;&#x6211;&#x627E;&#x5230;&#x4E86;&#x51FA;&#x53E3;&#x3002;</li>
+<li>&#x4E66;&#x4E0A;&#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7684;&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;&#x4E3A;&#xFF1A;<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">do {</div><div class="line">    &#x82E5;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x53EF;&#x901A;&#xFF0C;</div><div class="line">	&#x5219;{ &#x5C06;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x63D2;&#x5165;&#x6808;&#x9876;&#xFF0C; //&#x7EB3;&#x5165;&#x8DEF;&#x5F84;</div><div class="line">	      &#x82E5;&#x8BE5;&#x4F4D;&#x7F6E;&#x662F;&#x51FA;&#x53E3;&#x4F4D;&#x7F6E;&#xFF0C;&#x5219;&#x7ED3;&#x675F;&#xFF1B;  //&#x6C42;&#x5F97;&#x8DEF;&#x5F84;&#x5B58;&#x653E;&#x6808;&#x4E2D;</div><div class="line">		  &#x5426;&#x5219;&#x5207;&#x6362;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x7684;&#x4E1C;&#x90BB;&#x65B9;&#x5757;&#x4E3A;&#x65B0;&#x7684;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#xFF1B;</div><div class="line">	}</div><div class="line">	&#x5426;&#x5219;&#xFF0C;</div><div class="line">	    &#x82E5;&#x6808;&#x4E0D;&#x4E3A;&#x7A7A;&#x4E14;&#x6808;&#x9876;&#x4F4D;&#x7F6E;&#x5C1A;&#x6709;&#x5176;&#x4ED6;&#x65B9;&#x5411;&#x672A;&#x7ECF;&#x63A2;&#x7D22;&#xFF0C;</div><div class="line">		  &#x5219;&#x8BBE;&#x5B9A;&#x65B0;&#x7684;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x4E3A;&#x6CBF;&#x987A;&#x65F6;&#x9488;&#x65B9;&#x5411;&#x65CB;&#x8F6C;&#x627E;&#x5230;&#x7684;&#x6808;&#x9876;&#x7684;&#x4E0B;&#x4E00;&#x76F8;&#x90BB;&#x5757;&#xFF1B;</div><div class="line">		&#x82E5;&#x6808;&#x4E0D;&#x7A7A;&#x4F46;&#x6808;&#x9876;&#x4F4D;&#x7F6E;&#x7684;&#x56DB;&#x5468;&#x5747;&#x4E0D;&#x901A;&#xFF0C;</div><div class="line">		  &#x5219;&#xFF5B;&#x5220;&#x53BB;&#x6808;&#x9876;&#x4F4D;&#x7F6E;&#xFF1B;</div><div class="line">		         &#x82E5;&#x6808;&#x4E0D;&#x7A7A;&#xFF0C;&#x5219;&#x91CD;&#x65B0;&#x6D4B;&#x8BD5;&#x65B0;&#x7684;&#x6808;&#x9876;&#x4F4D;&#x7F6E;&#xFF0C;</div><div class="line">				   &#x76F4;&#x81F3;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x53EF;&#x901A;&#x7684;&#x76F8;&#x90BB;&#x5757;&#x6216;&#x51FA;&#x6808;&#x81F3;&#x6808;&#x7A7A;&#xFF1B;</div><div class="line">		    </div><div class="line">		  &#xFF5D;</div><div class="line">} while&#xFF08;&#x6808;&#x4E0D;&#x4E3A;&#x7A7A;&#xFF09;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="3-&#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;"><a href="#3-&#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;" class="headerlink" title="3. &#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;"></a>3. &#x5173;&#x4E8E;&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;</h2><blockquote>
+<p>&#x5728;&#x6570;&#x636E;&#x63A5;&#x53E3;&#x8FD9;&#x672C;&#x4E66;&#x4E2D;&#x6709;&#x4F2A;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;&#xFF0C;&#x901A;&#x8FC7;&#x67E5;&#x9605;&#x8D44;&#x6599;&#x627E;&#x5230;&#x4E86;&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+</blockquote>
+<p><img src="/2017/08/16/maze/img/mzae1.png" alt="1"><br><img src="/2017/08/16/maze/img/mzae2.png" alt="2"></p>
+<blockquote>
+<p>&#x7531;&#x4E8E;C&#x8BED;&#x8A00;&#x4E2D;&#x5B9A;&#x4E49;&#x6808;&#x64CD;&#x4F5C;&#x6BD4;&#x8F83;&#x7E41;&#x7410;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x8D34;&#x51FA;&#x3002;&#x4E0B;&#x9762;&#x7528;java&#x6765;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;<br>&#x9996;&#x5148;&#xFF0C;&#x8FF7;&#x5BAB;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3002;&#x5305;&#x62EC;&#x4E86;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x7684;&#x65B9;&#x5411;&#xFF0C;&#x5E8F;&#x53F7;&#x4EE5;&#x53CA;&#x4F4D;&#x7F6E;&#x3002;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * &#x8FF7;&#x5BAB;&#x7C7B;</div><div class="line"> */</div><div class="line">public class Maze {</div><div class="line"></div><div class="line">    public MazeMode di;//&#x65B9;&#x5411;</div><div class="line">    public int ord;//&#x5E8F;&#x53F7;</div><div class="line">    public Point pos = new Point();//&#x4F4D;&#x7F6E;</div><div class="line">    //&#x8FF7;&#x5BAB;&#x7684;&#x957F;&#x5BBD;</div><div class="line">    public static int MAZE_WIDTH = 16;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x8FF7;&#x5BAB;&#x7684;&#x679A;&#x4E3E;&#xFF0C;&#x5B9A;&#x4E49;&#x65B9;&#x5411;&#x4EE5;&#x53CA;&#x5899;&#x4F53;&#x969C;&#x788D;&#x7269;&#x7B49;</div><div class="line">     */</div><div class="line">    public enum MazeMode {</div><div class="line">        //&#x5899;&#x4F53;</div><div class="line">        Wall(1),</div><div class="line">        //&#x969C;&#x788D;&#x7269;</div><div class="line">        Obstacle(2),</div><div class="line">        //&#x8DEF;</div><div class="line">        Way(3),</div><div class="line">        //&#x6B7B;&#x80E1;&#x540C;</div><div class="line">        DeadLock(4),</div><div class="line">        //&#x4E1C;</div><div class="line">        East(5),</div><div class="line">        //&#x5357;</div><div class="line">        South(6),</div><div class="line">        //&#x897F;</div><div class="line">        West(7),</div><div class="line">        //&#x5317;</div><div class="line">        North(8);</div><div class="line"></div><div class="line">        public int value;</div><div class="line">        MazeMode(int i) {</div><div class="line">            value = i;</div><div class="line">        }</div><div class="line"></div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x662F;&#x5426;&#x53EF;&#x901A;</div><div class="line">     *</div><div class="line">     * @param pos &#x4F4D;&#x7F6E;</div><div class="line">     * @param maze &#x8FF7;&#x5BAB;</div><div class="line">     * @return true &#x53EF;&#x901A; false &#x4E0D;&#x53EF;&#x901A;</div><div class="line">     */</div><div class="line">    public static boolean pass(Point pos, int maze[][]) {</div><div class="line">        return !isCross(pos) &amp;&amp; maze[pos.x][pos.y] == MazeMode.Way.value;</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x6807;&#x8BB0;&#x8FD9;&#x4E2A;&#x4F4D;&#x7F6E;&#x4E3A;&#x5411;&#x4E1C;&#x5BFB;&#x627E;</div><div class="line">     *</div><div class="line">     * @param pos &#x4F4D;&#x7F6E;</div><div class="line">     * @param maze &#x8FF7;&#x5BAB;</div><div class="line">     */</div><div class="line">    public static void footPrint(Point pos, int maze[][]) {</div><div class="line">        maze[pos.x][pos.y] = East.value;</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x4E0B;&#x4E00;&#x4F4D;&#x7F6E;</div><div class="line">     *</div><div class="line">     * @param curPos &#x5F53;&#x524D;&#x4F4D;&#x7F6E;</div><div class="line">     * @param value  &#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x7684;&#x65B9;&#x5411;</div><div class="line">     */</div><div class="line">    public static void nextPos(Point curPos, int value) {</div><div class="line">        switch (value) {</div><div class="line">            case 5:</div><div class="line">                curPos.y++;</div><div class="line">                break;</div><div class="line">            case 6:</div><div class="line">                curPos.x++;</div><div class="line">                break;</div><div class="line">            case 7:</div><div class="line">                curPos.y--;</div><div class="line">                break;</div><div class="line">            case 8:</div><div class="line">                curPos.x--;</div><div class="line">                break;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x662F;&#x5426;&#x8D8A;&#x754C;</div><div class="line">     * @param pos &#x4F4D;&#x7F6E;</div><div class="line">     * @return true &#x8D8A;&#x754C; false &#x6CA1;&#x6709;</div><div class="line">     */</div><div class="line">    private static boolean isCross(Point pos) {</div><div class="line">        return pos.x &lt; 0 || pos.x &gt; MAZE_WIDTH - 1 || pos.y &gt; MAZE_WIDTH - 1 || pos.y &lt; 0;</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x65B0;&#x7684;&#x65B9;&#x5411;</div><div class="line">     * &#x6309;&#x7167;&#x4E1C;-&gt;&#x5357;-&gt;&#x897F;-&gt;&#x5317;&#x6765;&#xFF0C;&#x5F53;&#x4E3A;&#x5317;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E0D;&#x4F1A;&#x8FDB;&#x5165;&#x6B64;&#x65B9;&#x6CD5;&#x3002;</div><div class="line">     * @param di &#x5F53;&#x524D;&#x65B9;&#x5411;</div><div class="line">     * @return &#x65B0;&#x7684;&#x65B9;&#x5411;</div><div class="line">     */</div><div class="line">    public static MazeMode nextDi(MazeMode di) {</div><div class="line">        switch (di) {</div><div class="line">            case East:</div><div class="line">                return South;</div><div class="line">            case South:</div><div class="line">                return West;</div><div class="line">            case West:</div><div class="line">                return North;</div><div class="line">        }</div><div class="line">        return null;</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x7ED8;&#x5236;&#x8FF7;&#x5BAB;</div><div class="line">     * @param maze &#x8FF7;&#x5BAB;</div><div class="line">     */</div><div class="line">    private static void paintMaze(int[][] maze) {</div><div class="line">        int i, j;</div><div class="line">        for (i = 0; i &lt; MAZE_WIDTH; i++) {</div><div class="line">            for (j = 0; j &lt; MAZE_WIDTH; j++) {</div><div class="line">                if (maze[i][j] == Wall.value) {</div><div class="line">                    printf(&quot; &#x25A0; &quot;);</div><div class="line">                } else if (maze[i][j] == Obstacle.value) {</div><div class="line">                    printf(&quot; &#x25A1; &quot;);</div><div class="line">                } else if (maze[i][j] == East.value) {</div><div class="line">                    printf(&quot; &#x2192; &quot;);</div><div class="line">                } else if (maze[i][j] == South.value) {</div><div class="line">                    printf(&quot; &#x2193; &quot;);</div><div class="line">                } else if (maze[i][j] == North.value) {</div><div class="line">                    printf(&quot; &#x2191; &quot;);</div><div class="line">                } else if (maze[i][j] == West.value) {</div><div class="line">                    printf(&quot; &#x2190; &quot;);</div><div class="line">                } else if (maze[i][j] == DeadLock.value) {</div><div class="line">                    printf(&quot; &#x25CB; &quot;);</div><div class="line">                } else {</div><div class="line">                    printf(&quot;   &quot;);</div><div class="line">                }</div><div class="line"></div><div class="line">                if (j != 0 &amp;&amp; j % (MAZE_WIDTH - 1) == 0) {</div><div class="line">                    printf(&quot;\n&quot;);</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x8BBE;&#x7F6E;&#x6B7B;&#x80E1;&#x540C;</div><div class="line">     * @param maze &#x8FF7;&#x5BAB;</div><div class="line">     * @param pos &#x4F4D;&#x7F6E;</div><div class="line">     */</div><div class="line">    public static void setDeadLock(int[][] maze, Point pos) {</div><div class="line">        maze[pos.x][pos.y] = DeadLock.value;</div><div class="line">    }</div><div class="line"></div><div class="line">    private static void printf(String s) {</div><div class="line">        System.out.print(s);</div><div class="line">    }</div><div class="line"></div><div class="line">    /**</div><div class="line">     * &#x663E;&#x793A;&#x8FF7;&#x5BAB;&#xFF0C;200&#x6BEB;&#x79D2;&#x8F93;&#x51FA;&#x4E00;&#x6B21;</div><div class="line">     * @param maze</div><div class="line">     */</div><div class="line">    public static void showMaze(int[][] maze) {</div><div class="line">        try {</div><div class="line">            Thread.sleep(200);</div><div class="line">            paintMaze(maze);</div><div class="line">        } catch (InterruptedException e) {</div><div class="line">            e.printStackTrace();</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7684;&#x4E3B;&#x8981;&#x7B97;&#x6CD5;&#xFF1A;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * &#x8FF7;&#x5BAB;&#x6C42;&#x89E3;&#x7B97;&#x6CD5;</div><div class="line">     * @param maze &#x8FF7;&#x5BAB;</div><div class="line">     * @param start &#x5F00;&#x59CB;&#x4F4D;&#x7F6E;</div><div class="line">     * @param end &#x7ED3;&#x675F;&#x4F4D;&#x7F6E;</div><div class="line">     */</div><div class="line">    public static void maze(int[][] maze, Point start, Point end) {</div><div class="line">        //&#x5B9A;&#x4E49;&#x6808;</div><div class="line">        Stack&lt;Maze&gt; record = new Stack&lt;&gt;();</div><div class="line">        //&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x4E3A;&#x5F00;&#x59CB;&#x4F4D;&#x7F6E;</div><div class="line">        Point curPos = new Point(start.x, start.y);</div><div class="line">        //&#x5F53;&#x524D;&#x662F;&#x7B2C;&#x51E0;&#x6B65;</div><div class="line">        int curStep = 1;</div><div class="line">        do {//&#x5F00;&#x59CB;&#x5FAA;&#x73AF;&#x4E86;&#x3002;</div><div class="line">            if (pass(curPos, maze)) {//&#x5982;&#x679C;&#x5F53;&#x524D;&#x8DEF;&#x53EF;&#x901A;</div><div class="line">                footPrint(curPos, maze);//&#x6807;&#x8BB0;&#x8FD9;&#x4E2A;&#x4F4D;&#x7F6E;&#x6211;&#x6765;&#x8FC7;</div><div class="line">                showMaze(maze);//&#x7ED8;&#x5236;&#x8FF7;&#x5BAB;</div><div class="line"></div><div class="line">                //&#x628A;&#x5F53;&#x524D;&#x6570;&#x636E;&#x5B58;&#x653E;&#x5230;&#x6808;&#x4E2D;</div><div class="line">                Maze e = new Maze();</div><div class="line">                e.di = East;</div><div class="line">                e.ord = curStep;</div><div class="line">                e.pos.x = curPos.x;</div><div class="line">                e.pos.y = curPos.y;</div><div class="line">                record.push(e);</div><div class="line">                if (curPos.x == end.x &amp;&amp; curPos.y == end.y) {//&#x7ED3;&#x675F;&#x6761;&#x4EF6;&#x5224;&#x65AD;</div><div class="line">                    println(&quot;&#x5BFB;&#x8DEF;&#x6210;&#x529F;&quot;);</div><div class="line">                    return;</div><div class="line">                }</div><div class="line"></div><div class="line">                //&#x53BB;&#x4E0B;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#xFF0C;&#x5411;&#x4E1C;&#x524D;&#x884C;&#x3002;</div><div class="line">                nextPos(curPos, East.value);</div><div class="line">            } else {//&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x4E0D;&#x53EF;&#x901A;&#xFF0C;&#x5373;&#x6B64;&#x4F4D;&#x7F6E;&#x4E0D;&#x662F;way</div><div class="line">                Maze temp = null;</div><div class="line">                if (!record.empty()) {</div><div class="line">                    temp = record.pop();//&#x83B7;&#x5F97;&#x6808;&#x9876;&#x5143;&#x7D20;&#xFF0C;&#x5373;&#x524D;&#x4E00;&#x6B65;&#x7684;&#x4F4D;&#x7F6E;</div><div class="line">                }</div><div class="line">                assert temp != null;//&#x8FD9;&#x73A9;&#x610F;&#x80AF;&#x5B9A;&#x4E0D;&#x4E3A;&#x7A7A;</div><div class="line">                while (temp.di == North &amp;&amp; !record.empty()) {//&#x5982;&#x679C;&#x6B64;&#x65F6;&#x4E0A;&#x4E00;&#x6B65;&#x662F;&#x5317;&#x65B9;&#x5411;&#xFF0C;&#x5219;&#x4EE3;&#x8868;&#x5DF2;&#x7ECF;&#x65E0;&#x8DEF;&#x53EF;&#x8D70;&#x4E86;&#xFF0C;&#x6807;&#x8BB0;&#x6B7B;&#x80E1;&#x540C;</div><div class="line">                    setDeadLock(maze, temp.pos);</div><div class="line">                    showMaze(maze);//&#x7ED8;&#x5236;</div><div class="line">                    temp = record.pop();//&#x518D;&#x83B7;&#x5F97;&#x6808;&#x9876;</div><div class="line">                }</div><div class="line"></div><div class="line">                if (temp.di.value &lt; North.value) {//&#x5982;&#x679C;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x8FD8;&#x4E0D;&#x4E3A;&#x5317;&#x65B9;&#x5411;</div><div class="line">                    maze[temp.pos.x][temp.pos.y] = temp.di.value + 1;//&#x65B9;&#x5411;&#x503C;+1</div><div class="line">                    temp.di = nextDi(temp.di);//&#x5F53;&#x524D;&#x5143;&#x7D20;&#x7684;&#x653E;&#x4E0B;&#x4E3A;&#x4E0B;&#x4E00;&#x4E2A;&#x65B9;&#x5411;</div><div class="line">                    showMaze(maze);//&#x8F93;&#x51FA;</div><div class="line">                    record.push(temp);//&#x538B;&#x6808;</div><div class="line">                    //&#x8BBE;&#x7F6E;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x4E3A;&#x8FD9;&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x4F4D;&#x7F6E;</div><div class="line">                    curPos.x = temp.pos.x;</div><div class="line">                    curPos.y = temp.pos.y;</div><div class="line">                    //&#x83B7;&#x53D6;&#x4E0B;&#x4E2A;&#x5143;&#x7D20;</div><div class="line">                    nextPos(curPos, temp.di.value);</div><div class="line">                }</div><div class="line">            }</div><div class="line">        } while (!record.empty());</div><div class="line"></div><div class="line">        println(&quot;&#x5BFB;&#x8DEF;&#x5931;&#x8D25;&quot;);</div><div class="line">    }</div><div class="line"></div><div class="line">    public static void println(String s) {</div><div class="line">        System.out.println(s);</div><div class="line">    }</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#xFF1A;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) {</div><div class="line">        int[][] maze = new int[MAZE_WIDTH][MAZE_WIDTH];</div><div class="line">        Point start = new Point(1, 0);</div><div class="line">        Point end = new Point(MAZE_WIDTH - 2, MAZE_WIDTH - 1);</div><div class="line">        for (int i = 0; i &lt; maze.length; i++) {</div><div class="line">            for (int j = 0; j &lt; maze.length; j++) {</div><div class="line"></div><div class="line">                if (i == 0 || j == 0 || i == MAZE_WIDTH - 1 || j == MAZE_WIDTH - 1) {</div><div class="line">                    maze[i][j] = Wall.value;</div><div class="line">                } else {</div><div class="line">                    if (Math.random() * MAZE_WIDTH &gt; 4) {</div><div class="line">                        maze[i][j] = Way.value;</div><div class="line">                    } else {</div><div class="line">                        maze[i][j] = Obstacle.value;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        //&#x8BBE;&#x7F6E;&#x6700;&#x540E;&#x4EE5;&#x53CA;&#x8FDE;&#x63A5;&#x6700;&#x540E;&#x7684;&#x4F4D;&#x7F6E;&#x548C;&#x5F00;&#x59CB;&#x4F4D;&#x7F6E;&#x4EE5;&#x53CA;&#x8FDE;&#x63A5;&#x5F00;&#x59CB;&#x7684;&#x4F4D;&#x7F6E;&#x90FD;&#x53EF;&#x901A;&#xFF0C;&#x63D0;&#x9AD8;&#x6210;&#x529F;&#x7387;</div><div class="line">        maze[1][0] = maze[MAZE_WIDTH - 2][MAZE_WIDTH - 1] = Way.value;</div><div class="line">        maze[1][1] = maze[MAZE_WIDTH - 2][MAZE_WIDTH - 2] = Way.value;</div><div class="line"></div><div class="line">        maze(maze, start, end);</div><div class="line">    }</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#xFF0C;&#x6709;&#x56FE;&#x6709;&#x771F;&#x76F8;&#x3002;<br><img src="/2017/08/16/maze/img/maze_result.png" alt="&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;"></p>
+</blockquote>
+<hr>
+<h2 id="4-&#x5199;&#x5728;&#x6700;&#x540E;"><a href="#4-&#x5199;&#x5728;&#x6700;&#x540E;" class="headerlink" title="4. &#x5199;&#x5728;&#x6700;&#x540E;"></a>4. &#x5199;&#x5728;&#x6700;&#x540E;</h2><blockquote>
+<p>2017&#x5E74;&#x5DF2;&#x8FC7;&#x5927;&#x534A;&#xFF0C;&#x6362;&#x4E86;&#x65B0;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x65B0;&#x7684;&#x73AF;&#x5883;&#x3002;&#x5E0C;&#x671B;&#x81EA;&#x5DF1;&#x80FD;&#x591F;&#x575A;&#x6301;&#x5B66;&#x4E60;&#x4E0B;&#x53BB;&#x3002;&#x98CE;&#x8F7B;&#x4E91;&#x6DE1;&#xFF0C;&#x52FF;&#x5FD8;&#x521D;&#x5FC3;&#x3002;</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/18/Android-Handler/" rel="next" title="Android Handler消息机制不完全解析">
+                <i class="fa fa-chevron-left"></i> Android Handler消息机制不完全解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.png"
+               alt="Nick Kang" />
+          <p class="site-author-name" itemprop="name">Nick Kang</p>
+          <p class="site-description motion-element" itemprop="description">风轻云淡，勿忘本心</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">1.写在前面的话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-关于迷宫求解问题"><span class="nav-number">2.</span> <span class="nav-text">2. 关于迷宫求解问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-关于迷宫求解的代码实现"><span class="nav-number">3.</span> <span class="nav-text">3. 关于迷宫求解的代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-写在最后"><span class="nav-number">4.</span> <span class="nav-text">4. 写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick Kang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
