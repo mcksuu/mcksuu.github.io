@@ -1,0 +1,686 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nick, Ksuu" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x6700;&amp;#x8FD1;&amp;#x9AD8;&amp;#x4EA7;&amp;#x4F3C;&amp;#x6BCD;&amp;#x732A;&amp;#xFF0C;&amp;#x6BCF;&amp;#x5929;&amp;#x90FD;&amp;#x4F1A;&amp;#x5199;&amp;#x70B9;&amp;#x5173;&amp;#x4E8E;&amp;#x8FD9;&amp;#x4E2A;&amp;#x7CFB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从源码分析Activity启动时的生命周期">
+<meta property="og:url" content="https://mcksuu.github.io/2017/11/13/ActivityLifeCycle/index.html">
+<meta property="og:site_name" content="McKsuu">
+<meta property="og:description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x6700;&amp;#x8FD1;&amp;#x9AD8;&amp;#x4EA7;&amp;#x4F3C;&amp;#x6BCD;&amp;#x732A;&amp;#xFF0C;&amp;#x6BCF;&amp;#x5929;&amp;#x90FD;&amp;#x4F1A;&amp;#x5199;&amp;#x70B9;&amp;#x5173;&amp;#x4E8E;&amp;#x8FD9;&amp;#x4E2A;&amp;#x7CFB">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-387a5fd2e366b67a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-c29526161f522b8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-98a9af1c35761990.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-9f375fb03fd7023a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-13T15:01:44.356Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从源码分析Activity启动时的生命周期">
+<meta name="twitter:description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x6700;&amp;#x8FD1;&amp;#x9AD8;&amp;#x4EA7;&amp;#x4F3C;&amp;#x6BCD;&amp;#x732A;&amp;#xFF0C;&amp;#x6BCF;&amp;#x5929;&amp;#x90FD;&amp;#x4F1A;&amp;#x5199;&amp;#x70B9;&amp;#x5173;&amp;#x4E8E;&amp;#x8FD9;&amp;#x4E2A;&amp;#x7CFB">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5720362-387a5fd2e366b67a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mcksuu.github.io/2017/11/13/ActivityLifeCycle/"/>
+
+
+
+
+
+  <title> 从源码分析Activity启动时的生命周期 | McKsuu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">McKsuu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">McKsuu</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://mcksuu.github.io/2017/11/13/ActivityLifeCycle/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Nick Kang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/favicon.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="McKsuu">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="McKsuu" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                从源码分析Activity启动时的生命周期
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="post.created" itemprop="dateCreated datePublished" datetime="2017-11-13T23:02:07+08:00">
+                2017-11-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"><a href="#&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;" class="headerlink" title="&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"></a>&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;</h1><blockquote>
+<p>&#x6700;&#x8FD1;&#x9AD8;&#x4EA7;&#x4F3C;&#x6BCD;&#x732A;&#xFF0C;&#x6BCF;&#x5929;&#x90FD;&#x4F1A;&#x5199;&#x70B9;&#x5173;&#x4E8E;&#x8FD9;&#x4E2A;&#x7CFB;&#x5217;&#x7684;&#x603B;&#x7ED3;&#x3002;&#x5468;&#x4E00;&#x4E86;&#xFF0C;&#x53C8;&#x5F00;&#x59CB;&#x5FD9;&#x788C;&#x7684;&#x4E00;&#x5929;&#x3002;&#x9879;&#x76EE;&#x8D76;&#x8D76;&#x8D76;&#xFF0C;bug&#x6539;&#x6539;&#x6539;&#xFF0C;&#x76FC;&#x671B;&#x7740;&#x76FC;&#x671B;&#x7740;&#xFF0C;&#x7EC8;&#x4E8E;&#x4E0B;&#x73ED;&#x4E86;&#x3002;&#x7A81;&#x7136;&#x60F3;&#x8D77;&#x5C0F;&#x65F6;&#x5019;&#x5B66;&#x8FC7;&#x7684;&#x4E00;&#x7BC7;&#x8BFE;&#x6587;&#x300A;&#x548C;&#x65F6;&#x95F4;&#x8D5B;&#x8DD1;&#x300B;&#xFF0C;&#x8D8A;&#x6765;&#x8D8A;&#x89C9;&#x5F97;&#x201C;&#x5149;&#x9634;&#x4F3C;&#x7BAD;&#xFF0C;&#x65E5;&#x6708;&#x5982;&#x68AD;&#x201D;&#x4E86;&#x3002;&#x8FD8;&#x4EE5;&#x4E3A;&#x662F;&#x90A3;&#x4E2A;&#x521A;&#x521A;&#x6765;&#x5230;&#x9B54;&#x90FD;&#x7684;&#x6BDB;&#x5934;&#x5C0F;&#x5B50;&#xFF0C;&#x7A81;&#x7136;&#x95F4;&#x53D1;&#x73B0;&#xFF0C;&#x73B0;&#x5728;&#x5DF2;&#x7136;&#x53D8;&#x6210;&#x4E86;&#x201C;&#x7325;&#x7410;&#x5927;&#x53D4;&#x201D;&#x4E86;&#x3002;<br>&#x867D;&#x7136;&#x6211;&#x5E76;&#x4E0D;&#x7325;&#x7410;&#xFF0C;&#x867D;&#x7136;&#x6211;&#x5E76;&#x4E0D;&#x662F;&#x5927;&#x53D4;&#x3002;&#x5662;&#xFF01;&#x53C8;&#x60F3;&#x8D77;&#x5927;&#x5B66;&#x5BBF;&#x820D;&#x7684;&#x7325;&#x7410;&#x5C0F;&#x54E5;&#x4E86;&#xFF0C;&#x90A3;&#x7325;&#x7410;&#x7684;&#x6837;&#x5B50;&#x2026;..<br>&#x54CE;~&#x4E0D;&#x626F;&#x4E86;&#xFF0C;&#x518D;&#x626F;&#x5C31;&#x4E0D;&#x7528;&#x5199;&#x4E86;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="1-&#x5173;&#x4E8E;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;"><a href="#1-&#x5173;&#x4E8E;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;" class="headerlink" title="1. &#x5173;&#x4E8E;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;"></a>1. &#x5173;&#x4E8E;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;</h1><blockquote>
+<p>&#x81EA;&#x4ECE;&#x5F00;&#x59CB;&#x5165;Android&#x7684;&#x5751;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4E00;&#x76F4;&#x5FF5;&#x53E8;&#x7740;Activity&#x542F;&#x52A8;&#x65F6;&#x5148;onCreate&#xFF0C;&#x518D;onStart&#xFF0C;&#x6700;&#x540E;onResume&#x3002;&#x5404;&#x4E2A;&#x9636;&#x6BB5;&#x662F;&#x5565;&#x542B;&#x4E49;&#x5177;&#x4F53;&#x4E0D;&#x8BB2;&#x4E86;&#xFF08;&#x6211;&#x4E0D;&#x4F1A;&#x8BF4;&#x6211;&#x4E5F;&#x4E0D;&#x77E5;&#x9053;&#xFF09;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-387a5fd2e366b67a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>&#x4F46;&#x662F;&#xFF0C;&#x81EA;&#x4ECE;&#x5F00;&#x59CB;&#x505A;Android&#x5C31;&#x60F3;&#x8FC7;&#xFF0C;&#x8FD9;&#x51E0;&#x4E2A;&#x65B9;&#x6CD5;&#x7A76;&#x7ADF;&#x662F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x8C03;&#x7528;&#x7684;&#xFF1F;&#x53C8;&#x662F;&#x8C01;&#x53BB;&#x8C03;&#x7528;&#x7684;&#x4ED6;&#xFF1F;&#x4EE5;&#x524D;&#x5462;&#xFF0C;&#x81EA;&#x5DF1;&#x592A;&#x83DC;&#x4E86;&#xFF08;&#x867D;&#x7136;&#x73B0;&#x5728;&#x4E5F;&#x662F;&#x3002;&#x3002;&#xFF09;&#xFF0C;&#x6839;&#x672C;&#x6CA1;&#x6709;&#x597D;&#x597D;&#x53BB;&#x770B;&#xFF0C;&#x6700;&#x8FD1;&#x6709;&#x65F6;&#x95F4;&#x597D;&#x597D;&#x603B;&#x7ED3;&#x4E0B;&#x5173;&#x4E8E;&#x8FD9;&#x65B9;&#x9762;&#x7684;&#x77E5;&#x8BC6;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-c29526161f522b8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>&#x5728;&#x524D;&#x9762;&#x7684;Android&#x7684;luncher&#x542F;&#x52A8;&#x8FC7;&#x7A0B;&#x4E2D;&#x5DF2;&#x7ECF;&#x8BB2;&#x5230;&#xFF0C;Activity&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x8C03;&#x7528;ApplicationThread&#x7684;scheduleLaunchActivity&#x65B9;&#x6CD5;&#x3002;&#x4E0B;&#x9762;&#x4ECE;&#x8FD9;&#x4E2A;&#x5730;&#x65B9;&#x5F00;&#x59CB;&#x5206;&#x6790;&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="2-scheduleLaunchActivity&#x65B9;&#x6CD5;"><a href="#2-scheduleLaunchActivity&#x65B9;&#x6CD5;" class="headerlink" title="2. scheduleLaunchActivity&#x65B9;&#x6CD5;"></a>2. scheduleLaunchActivity&#x65B9;&#x6CD5;</h1><blockquote>
+<p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5176;&#x5B9E;&#x4E0D;&#x60F3;&#x8BF4;&#x7684;&#xFF0C;&#x8FD9;&#x91CC;&#x9762;&#x53EA;&#x505A;&#x4E86;&#x4E00;&#x4E2A;&#x64CD;&#x4F5C;&#xFF0C;&#x5C31;&#x662F;&#x901A;&#x8FC7;Handler&#x53D1;&#x9001;<code>LAUNCH_ACTIVITY</code>&#x6D88;&#x606F;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public final void scheduleLaunchActivity(Intent intent, IBinder token, int ident,</div><div class="line">		ActivityInfo info, Configuration curConfig, Configuration overrideConfig,</div><div class="line">		CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,</div><div class="line">		int procState, Bundle state, PersistableBundle persistentState,</div><div class="line">		List&lt;ResultInfo&gt; pendingResults, List&lt;ReferrerIntent&gt; pendingNewIntents,</div><div class="line">		boolean notResumed, boolean isForward, ProfilerInfo profilerInfo) {</div><div class="line">	//&#x5BF9;&#x53D8;&#x91CF;&#x5404;&#x79CD;&#x8D4B;&#x503C;</div><div class="line">	......</div><div class="line">	//&#x53D1;&#x9001;LAUNCH_ACTIVITY&#x6D88;&#x606F;&#xFF0C;&#x5E76;&#x628A;&#x6570;&#x636E;&#x4F20;&#x5165;</div><div class="line">	sendMessage(H.LAUNCH_ACTIVITY, r);</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x91CC;&#x7B80;&#x5355;&#x770B;&#x4E0B;&#x8FD9;&#x4E2A;H&#x662F;&#x4F55;&#x65B9;&#x795E;&#x5723;<code>private class H extends Handler</code>&#xFF0C;&#x597D;&#x4E86;&#x770B;&#x5B8C;&#x4E86;&#x3002;&#x8FD9;&#x5C31;&#x591F;&#x4E86;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x4E2A;Handler&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="3-Handler&#x5904;&#x7406;LAUNCH-ACTIVITY&#x6D88;&#x606F;"><a href="#3-Handler&#x5904;&#x7406;LAUNCH-ACTIVITY&#x6D88;&#x606F;" class="headerlink" title="3. Handler&#x5904;&#x7406;LAUNCH_ACTIVITY&#x6D88;&#x606F;"></a>3. Handler&#x5904;&#x7406;LAUNCH_ACTIVITY&#x6D88;&#x606F;</h1><blockquote>
+<p>&#x8FD9;&#x91CC;&#x9762;&#x5904;&#x7406;&#x4E5F;&#x662F;&#x5F88;&#x7B80;&#x5355;&#x7684;&#xFF0C;&#x8C03;&#x7528;&#x4E86;<code>handleLaunchActivity(r, null, &quot;LAUNCH_ACTIVITY&quot;);</code>&#x65B9;&#x6CD5;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public void handleMessage(Message msg) {</div><div class="line">	if (DEBUG_MESSAGES) Slog.v(TAG, &quot;&gt;&gt;&gt; handling: &quot; + codeToString(msg.what));</div><div class="line">	switch (msg.what) {</div><div class="line">		case LAUNCH_ACTIVITY: {</div><div class="line">			Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;activityStart&quot;);</div><div class="line">			final ActivityClientRecord r = (ActivityClientRecord) msg.obj;</div><div class="line"></div><div class="line">			r.packageInfo = getPackageInfoNoCheck(</div><div class="line">					r.activityInfo.applicationInfo, r.compatInfo);</div><div class="line">			//&#x8C03;&#x7528;ActivityThread&#x7684;handleLaunchActivity&#x65B9;&#x6CD5;&#x3002;</div><div class="line">			handleLaunchActivity(r, null, &quot;LAUNCH_ACTIVITY&quot;);</div><div class="line">			Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</div><div class="line">		} break;</div><div class="line">	&#xFF5D;</div><div class="line">	......</div><div class="line">&#xFF5D;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<hr>
+<h1 id="4-handleLaunchActivity&#x65B9;&#x6CD5;&#x548C;performLaunchActivity&#x65B9;&#x6CD5;"><a href="#4-handleLaunchActivity&#x65B9;&#x6CD5;&#x548C;performLaunchActivity&#x65B9;&#x6CD5;" class="headerlink" title="4. handleLaunchActivity&#x65B9;&#x6CD5;&#x548C;performLaunchActivity&#x65B9;&#x6CD5;"></a>4. handleLaunchActivity&#x65B9;&#x6CD5;&#x548C;performLaunchActivity&#x65B9;&#x6CD5;</h1><blockquote>
+<p>handleLaunchActivity&#x53C8;&#x8C03;&#x7528;&#x4E86;performLaunchActivity&#x65B9;&#x6CD5;&#x53BB;&#x521B;&#x5EFA;&#xFF0C;&#x5E76;&#x542F;&#x52A8;Activity&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div></pre></td><td class="code"><pre><div class="line">private void handleLaunchActivity(ActivityClientRecord r, Intent customIntent, String reason) {</div><div class="line">	......</div><div class="line">	// Initialize before creating the activity</div><div class="line">	WindowManagerGlobal.initialize();</div><div class="line"></div><div class="line">	Activity a = performLaunchActivity(r, customIntent);</div><div class="line"></div><div class="line">	if (a != null) {</div><div class="line">		r.createdConfig = new Configuration(mConfiguration);</div><div class="line">		reportSizeConfigurations(r);</div><div class="line">		Bundle oldState = r.state;</div><div class="line">                //&#x8FD9;&#x91CC;&#x8C03;&#x7528;Activity&#x7684;onResume&#x65B9;&#x6CD5;</div><div class="line">		handleResumeActivity(r.token, false, r.isForward,</div><div class="line">				!r.activity.mFinished &amp;&amp; !r.startsNotResumed, r.lastProcessedSeq, reason);</div><div class="line">		......</div><div class="line">	} else {</div><div class="line">		//Activity&#x4E3A;null&#xFF0C;&#x5219;&#x4EE3;&#x8868;&#x542F;&#x52A8;&#x51FA;&#x73B0;&#x95EE;&#x9898;&#xFF0C;&#x9700;&#x8981;&#x5173;&#x95ED;</div><div class="line">		try {</div><div class="line">			ActivityManagerNative.getDefault()</div><div class="line">				.finishActivity(r.token, Activity.RESULT_CANCELED, null,</div><div class="line">						Activity.DONT_FINISH_TASK_WITH_ACTIVITY);</div><div class="line">		} catch (RemoteException ex) {</div><div class="line">			throw ex.rethrowFromSystemServer();</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div><div class="line">private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {</div><div class="line">	// System.out.println(&quot;##### [&quot; + System.currentTimeMillis() + &quot;] ActivityThread.performLaunchActivity(&quot; + r + &quot;)&quot;);</div><div class="line"></div><div class="line">	ActivityInfo aInfo = r.activityInfo;</div><div class="line">	//&#x5BF9;&#x5404;&#x79CD;&#x4FE1;&#x606F;&#x7684;&#x975E;&#x7A7A;&#x5224;&#x65AD;&#x4EE5;&#x53CA;&#x4E3A;&#x7A7A;&#x7684;&#x65F6;&#x5019;&#x8D4B;&#x503C;</div><div class="line">	......</div><div class="line"></div><div class="line">	Activity activity = null;</div><div class="line">	try {</div><div class="line">		java.lang.ClassLoader cl = r.packageInfo.getClassLoader();</div><div class="line">		//&#x901A;&#x8FC7;Instrumentation&#x521B;&#x5EFA;&#x65B0;&#x7684;Activity</div><div class="line">		activity = mInstrumentation.newActivity(</div><div class="line">				cl, component.getClassName(), r.intent);</div><div class="line">		StrictMode.incrementExpectedActivityCount(activity.getClass());</div><div class="line">		r.intent.setExtrasClassLoader(cl);</div><div class="line">		r.intent.prepareToEnterProcess();</div><div class="line">		if (r.state != null) {</div><div class="line">			r.state.setClassLoader(cl);</div><div class="line">		}</div><div class="line">	} catch (Exception e) {</div><div class="line">		......</div><div class="line">	}</div><div class="line"></div><div class="line">	try {</div><div class="line">		//&#x521B;&#x5EFA;Application</div><div class="line">		Application app = r.packageInfo.makeApplication(false, mInstrumentation);</div><div class="line">		......</div><div class="line">		if (activity != null) {</div><div class="line">			//&#x521B;&#x5EFA;Context</div><div class="line">			Context appContext = createBaseContextForActivity(r, activity);</div><div class="line">			CharSequence title = r.activityInfo.loadLabel(appContext.getPackageManager());</div><div class="line">			Configuration config = new Configuration(mCompatConfiguration);</div><div class="line">			if (r.overrideConfig != null) {</div><div class="line">				config.updateFrom(r.overrideConfig);</div><div class="line">			}</div><div class="line">			//&#x8FD9;&#x4E2A;Window&#x662F;&#x6211;&#x4EEC;&#x663E;&#x793A;&#x7684;&#x7A97;&#x4F53;</div><div class="line">			Window window = null;</div><div class="line">			if (r.mPendingRemoveWindow != null &amp;&amp; r.mPreserveWindow) {</div><div class="line">				window = r.mPendingRemoveWindow;</div><div class="line">				r.mPendingRemoveWindow = null;</div><div class="line">				r.mPendingRemoveWindowManager = null;</div><div class="line">			}</div><div class="line">			//&#x8C03;&#x7528;attach&#x65B9;&#x6CD5;</div><div class="line">			activity.attach(appContext, this, getInstrumentation(), r.token,</div><div class="line">					r.ident, app, r.intent, r.activityInfo, title, r.parent,</div><div class="line">					r.embeddedID, r.lastNonConfigurationInstances, config,</div><div class="line">					r.referrer, r.voiceInteractor, window);</div><div class="line"></div><div class="line">			if (customIntent != null) {</div><div class="line">				activity.mIntent = customIntent;</div><div class="line">			}</div><div class="line">			r.lastNonConfigurationInstances = null;</div><div class="line">			activity.mStartedActivity = false;</div><div class="line">			int theme = r.activityInfo.getThemeResource();</div><div class="line">			if (theme != 0) {</div><div class="line">				activity.setTheme(theme);</div><div class="line">			}</div><div class="line"></div><div class="line">			activity.mCalled = false;</div><div class="line">			//&#x5224;&#x65AD;&#x662F;&#x4E0D;&#x662F;&#x6301;&#x4E45;&#x5316;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x65B0;&#x7684;&#x73B0;&#x573A;&#x4FDD;&#x5B58;&#xFF0C;&#x67E5;&#x4E86;&#x4E0B;&#x8BF4;&#x662F;5.0&#x53CA;&#x4EE5;&#x4E0A;&#x6709;&#x7684;&#x4E00;&#x79CD;&#x66F4;&#x52A0;&#x575A;&#x56FA;&#x7684;&#x4FDD;&#x5B58;&#x6570;&#x636E;&#x65B9;&#x5F0F;</div><div class="line">			//true&#x4F1A;&#x8C03;&#x7528;onCreate(@Nullable Bundle savedInstanceState,@Nullable PersistableBundle persistentState)</div><div class="line">			//false&#x4F1A;&#x8C03;&#x7528;onCreate(@Nullable Bundle savedInstanceState)</div><div class="line">			if (r.isPersistable()) {</div><div class="line">				mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);</div><div class="line">			} else {</div><div class="line">				mInstrumentation.callActivityOnCreate(activity, r.state);</div><div class="line">			}</div><div class="line">			if (!activity.mCalled) {</div><div class="line">				throw new SuperNotCalledException(</div><div class="line">					&quot;Activity &quot; + r.intent.getComponent().toShortString() +</div><div class="line">					&quot; did not call through to super.onCreate()&quot;);</div><div class="line">			}</div><div class="line">			r.activity = activity;</div><div class="line">			r.stopped = true;</div><div class="line">			//&#x8FD9;&#x91CC;&#x4F1A;&#x8C03;&#x7528;onStart&#x65B9;&#x6CD5;</div><div class="line">			if (!r.activity.mFinished) {</div><div class="line">				activity.performStart();</div><div class="line">				r.stopped = false;</div><div class="line">			}</div><div class="line">			//&#x8C03;&#x7528;onRestoreInstanceState&#x65B9;&#x6CD5;&#xFF0C;&#x5F53;&#x7136;&#x8FD9;&#x4E2A;&#x662F;&#x5728;re-initialized&#x72B6;&#x6001;&#x4E0B;&#xFF0C;&#x5373;&#x91CD;&#x65B0;&#x521D;&#x59CB;&#x5316;</div><div class="line">			if (!r.activity.mFinished) {</div><div class="line">				if (r.isPersistable()) {</div><div class="line">					if (r.state != null || r.persistentState != null) {</div><div class="line">						mInstrumentation.callActivityOnRestoreInstanceState(activity, r.state,</div><div class="line">								r.persistentState);</div><div class="line">					}</div><div class="line">				} else if (r.state != null) {</div><div class="line">					mInstrumentation.callActivityOnRestoreInstanceState(activity, r.state);</div><div class="line">				}</div><div class="line">			}</div><div class="line">			//onPostCreate&#x8FD9;&#x4E2A;&#x4F1A;&#x5728;&#x7A0B;&#x5E8F;&#x5B8C;&#x5168;&#x8FD0;&#x884C;&#x8D77;&#x6765;&#x8C03;&#x7528;&#xFF0C;onStart&#x4EE5;&#x540E;&#x3002;&#x597D;&#x50CF;&#x5F88;&#x5C11;&#x7528;</div><div class="line">			if (!r.activity.mFinished) {</div><div class="line">				activity.mCalled = false;</div><div class="line">				if (r.isPersistable()) {</div><div class="line">					mInstrumentation.callActivityOnPostCreate(activity, r.state,</div><div class="line">							r.persistentState);</div><div class="line">				} else {</div><div class="line">					mInstrumentation.callActivityOnPostCreate(activity, r.state);</div><div class="line">				}</div><div class="line">				if (!activity.mCalled) {</div><div class="line">					throw new SuperNotCalledException(</div><div class="line">						&quot;Activity &quot; + r.intent.getComponent().toShortString() +</div><div class="line">						&quot; did not call through to super.onPostCreate()&quot;);</div><div class="line">				}</div><div class="line">			}</div><div class="line">		}</div><div class="line">		r.paused = true;</div><div class="line"></div><div class="line">		mActivities.put(r.token, r);</div><div class="line"></div><div class="line">	} catch (SuperNotCalledException e) {</div><div class="line">		throw e;</div><div class="line"></div><div class="line">	} catch (Exception e) {</div><div class="line">		......</div><div class="line">	}</div><div class="line"></div><div class="line">	return activity;</div><div class="line">}</div><div class="line"></div><div class="line">Instrumentation.java</div><div class="line">public Activity newActivity(ClassLoader cl, String className,</div><div class="line">		Intent intent)</div><div class="line">		throws InstantiationException, IllegalAccessException,</div><div class="line">		ClassNotFoundException {</div><div class="line">	//&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x521B;&#x5EFA;Activity</div><div class="line">	return (Activity)cl.loadClass(className).newInstance();</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;&#x5206;&#x6790;&#x6765;&#x770B;&#xFF0C;&#x6211;&#x4EEC;&#x663E;&#x793A;&#x4F7F;&#x7528;Instrumentation.newActivity&#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Activity&#x5BF9;&#x8C61;&#xFF0C;&#x63A5;&#x7740;&#x4F1A;&#x8C03;&#x7528;attach&#x8FD9;&#x4E2A;&#x9690;&#x85CF;&#x65B9;&#x6CD5;&#x3002;&#x4E4B;&#x540E;&#x6839;&#x636E;&#x662F;&#x5426;&#x662F;&#x5F02;&#x5E38;&#x72B6;&#x6001;&#x6062;&#x590D;&#xFF0C;&#x53BB;&#x6389;&#x7528;onCreate&#x65B9;&#x6CD5;&#xFF0C;&#x63A5;&#x7740;&#x8C03;&#x7528;onStart&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5728;&#x91CD;&#x65B0;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5219;&#x4F1A;&#x8C03;&#x7528;callActivityOnRestoreInstanceState&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x540E;&#x5728;&#x7A0B;&#x5E8F;&#x5B8C;&#x5168;&#x8FD0;&#x884C;&#x8D77;&#x6765;&#x8C03;&#x8C03;&#x7528;Activity&#x7684;callActivityOnPostCreate&#xFF08;&#x8FD9;&#x4E2A;&#x5F88;&#x5C11;&#x7528;&#x5230;&#x554A;&#xFF09;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="5-&#x8FD8;&#x662F;&#x5148;&#x8BF4;&#x4E0B;-onResume"><a href="#5-&#x8FD8;&#x662F;&#x5148;&#x8BF4;&#x4E0B;-onResume" class="headerlink" title="5. &#x8FD8;&#x662F;&#x5148;&#x8BF4;&#x4E0B; onResume"></a>5. &#x8FD8;&#x662F;&#x5148;&#x8BF4;&#x4E0B; onResume</h1><blockquote>
+<p>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x6267;&#x884C;&#x5B8C;performLaunchActivity&#x65B9;&#x6CD5;&#x4F1A;&#x6267;&#x884C;handleResumeActivity&#x65B9;&#x6CD5;&#x3002;&#x5728;&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x6267;&#x884C;&#x4E86;Activity&#x7684;onResume&#x65B9;&#x6CD5;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">final void handleResumeActivity(IBinder token,</div><div class="line">		boolean clearHide, boolean isForward, boolean reallyResume, int seq, String reason) {</div><div class="line">	ActivityClientRecord r = mActivities.get(token);</div><div class="line">	......</div><div class="line">	//&#x6267;&#x884C;onResume&#x65B9;&#x6CD5;</div><div class="line">	r = performResumeActivity(token, clearHide, reason);</div><div class="line">	//onResume&#x662F;activity&#x4E0E;&#x7528;&#x6237;&#x80FD;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#x65F6;&#x88AB;&#x6267;&#x884C;&#xFF0C;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;activity&#x7684;&#x7126;&#x70B9;&#xFF0C;&#x80FD;&#x591F;&#x4E0E;&#x7528;&#x6237;&#x4EA4;&#x4E92;</div><div class="line">	if (r != null) {</div><div class="line">		final Activity a = r.activity;</div><div class="line">		final int forwardBit = isForward ?</div><div class="line">				WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION : 0;</div><div class="line">		</div><div class="line">		boolean willBeVisible = !a.mStartedActivity;</div><div class="line">		......</div><div class="line">		//&#x901A;&#x8FC7;ViewManager&#x6216;&#x8005;&#x8BF4;WindowManager&#x5C06;&#x8981;&#x663E;&#x793A;&#x7684;Activity&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF0C;&#x8FD9;&#x91CC;&#x4EE5;&#x540E;&#x5E94;&#x8BE5;&#x4F1A;&#x5206;&#x6790;&#xFF0C;&#x4E0D;&#x6025;&#x4E0D;&#x6025;</div><div class="line">		if (r.window == null &amp;&amp; !a.mFinished &amp;&amp; willBeVisible) {</div><div class="line">			r.window = r.activity.getWindow();</div><div class="line">			View decor = r.window.getDecorView();</div><div class="line">			decor.setVisibility(View.INVISIBLE);</div><div class="line">			ViewManager wm = a.getWindowManager();</div><div class="line">			WindowManager.LayoutParams l = r.window.getAttributes();</div><div class="line">			a.mDecor = decor;</div><div class="line">			l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;</div><div class="line">			l.softInputMode |= forwardBit;</div><div class="line">			if (r.mPreserveWindow) {</div><div class="line">				a.mWindowAdded = true;</div><div class="line">				r.mPreserveWindow = false;</div><div class="line">				ViewRootImpl impl = decor.getViewRootImpl();</div><div class="line">				if (impl != null) {</div><div class="line">					impl.notifyChildRebuilt();</div><div class="line">				}</div><div class="line">			}</div><div class="line">			if (a.mVisibleFromClient &amp;&amp; !a.mWindowAdded) {</div><div class="line">				a.mWindowAdded = true;</div><div class="line">				wm.addView(decor, l);</div><div class="line">			}</div><div class="line">		} else if (!willBeVisible) {</div><div class="line">			if (localLOGV) Slog.v(</div><div class="line">				TAG, &quot;Launch &quot; + r + &quot; mStartedActivity set&quot;);</div><div class="line">			r.hideForNow = true;</div><div class="line">		}</div><div class="line">		......</div><div class="line">		if (!r.onlyLocalRequest) {</div><div class="line">			r.nextIdle = mNewActivities;</div><div class="line">			mNewActivities = r;</div><div class="line">			Looper.myQueue().addIdleHandler(new Idler());</div><div class="line">		}</div><div class="line">		r.onlyLocalRequest = false;</div><div class="line"></div><div class="line">		// Tell the activity manager we have resumed.</div><div class="line">		if (reallyResume) {</div><div class="line">			try {</div><div class="line">				//&#x901A;&#x8FC7;AMS&#x8BBE;&#x7F6E;&#x72B6;&#x6001;</div><div class="line">				ActivityManagerNative.getDefault().activityResumed(token);</div><div class="line">			} catch (RemoteException ex) {</div><div class="line">				throw ex.rethrowFromSystemServer();</div><div class="line">			}</div><div class="line">		}</div><div class="line"></div><div class="line">	} else {</div><div class="line">		//&#x548C;&#x542F;&#x52A8;&#x4E00;&#x6837;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x95EE;&#x9898;&#x5219;&#x7ED3;&#x675F;&#x6389;</div><div class="line">		try {</div><div class="line">			ActivityManagerNative.getDefault()</div><div class="line">				.finishActivity(token, Activity.RESULT_CANCELED, null,</div><div class="line">						Activity.DONT_FINISH_TASK_WITH_ACTIVITY);</div><div class="line">		} catch (RemoteException ex) {</div><div class="line">			throw ex.rethrowFromSystemServer();</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure></p>
+</blockquote>
+<hr>
+<h1 id="6-&#x603B;&#x7ED3;"><a href="#6-&#x603B;&#x7ED3;" class="headerlink" title="6. &#x603B;&#x7ED3;"></a>6. <del>&#x603B;&#x7ED3;</del></h1><blockquote>
+<p>&#x54A6;&#xFF1F;&#x597D;&#x50CF;&#x6709;&#x70B9;&#x4E0D;&#x5BF9;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x542F;&#x52A8;&#x65B0;&#x7684;Activity&#x65F6;&#xFF0C;&#x4F1A;&#x8C03;&#x7528;&#x4E0A;&#x4E00;&#x4E2A;&#x9875;&#x9762;&#x7684;onStop&#x65B9;&#x6CD5;&#x554A;&#xFF1F;&#x4E0D;&#x5BF9;&#x554A;&#xFF0C;&#x770B;&#x770B;&#x600E;&#x4E48;&#x7F16;&#x4E0B;&#x53BB;&#x5427;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-98a9af1c35761990.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+"></p>
+</blockquote>
+<hr>
+<h1 id="7-&#x8FDF;&#x5230;&#x7684;onStop"><a href="#7-&#x8FDF;&#x5230;&#x7684;onStop" class="headerlink" title="7. &#x8FDF;&#x5230;&#x7684;onStop"></a>7. &#x8FDF;&#x5230;&#x7684;onStop</h1><blockquote>
+<p>&#x5176;&#x5B9E;&#x8FD9;&#x4E2A;onStop&#x8C03;&#x7528;&#x65F6;&#x673A;&#x6211;&#x5728;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x4E5F;&#x5C55;&#x793A;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x6CA1;&#x6709;&#x6807;&#x660E;&#x3002;&#x5C31;&#x5728;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x4E2D;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line">Looper.myQueue().addIdleHandler(new Idler());</div><div class="line"></div><div class="line">private class Idler implements MessageQueue.IdleHandler {</div><div class="line">	@Override</div><div class="line">	public final boolean queueIdle() {</div><div class="line">		ActivityClientRecord a = mNewActivities;</div><div class="line">		boolean stopProfiling = false;</div><div class="line">		if (mBoundApplication != null &amp;&amp; mProfiler.profileFd != null</div><div class="line">				&amp;&amp; mProfiler.autoStopProfiler) {</div><div class="line">			stopProfiling = true;</div><div class="line">		}</div><div class="line">		if (a != null) {</div><div class="line">			mNewActivities = null;</div><div class="line">			IActivityManager am = ActivityManagerNative.getDefault();</div><div class="line">			ActivityClientRecord prev;</div><div class="line">			do {</div><div class="line">				if (a.activity != null &amp;&amp; !a.activity.mFinished) {</div><div class="line">					try {</div><div class="line">						//&#x901A;&#x8FC7;AMS&#x8C03;&#x7528;activityIdle&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x7EC8;&#x4F1A;&#x6267;&#x884C;onStop&#x65B9;&#x6CD5;</div><div class="line">						am.activityIdle(a.token, a.createdConfig, stopProfiling);</div><div class="line">						a.createdConfig = null;</div><div class="line">					} catch (RemoteException ex) {</div><div class="line">						throw ex.rethrowFromSystemServer();</div><div class="line">					}</div><div class="line">				}</div><div class="line">				prev = a;</div><div class="line">				a = a.nextIdle;</div><div class="line">				prev.nextIdle = null;</div><div class="line">			} while (a != null);</div><div class="line">		}</div><div class="line">		......</div><div class="line">		return false;</div><div class="line">	}</div><div class="line">}</div><div class="line">AMS:</div><div class="line">@Override</div><div class="line">public final void activityIdle(IBinder token, Configuration config, boolean stopProfiling) {</div><div class="line">	final long origId = Binder.clearCallingIdentity();</div><div class="line">	synchronized (this) {</div><div class="line">		ActivityStack stack = ActivityRecord.getStackLocked(token);</div><div class="line">		//&#x8C03;&#x7528;StackSupervisor.activityIdleInternalLocked&#x65B9;&#x6CD5;</div><div class="line">		if (stack != null) {</div><div class="line">			ActivityRecord r =</div><div class="line">					mStackSupervisor.activityIdleInternalLocked(token, false, config);</div><div class="line">			if (stopProfiling) {</div><div class="line">				if ((mProfileProc == r.app) &amp;&amp; (mProfileFd != null)) {</div><div class="line">					try {</div><div class="line">						mProfileFd.close();</div><div class="line">					} catch (IOException e) {</div><div class="line">					}</div><div class="line">					clearProfilerLocked();</div><div class="line">				}</div><div class="line">			}</div><div class="line">		}</div><div class="line">	}</div><div class="line">	Binder.restoreCallingIdentity(origId);</div><div class="line">}</div><div class="line">ActivityStackSupervisor.java</div><div class="line">final ActivityRecord activityIdleInternalLocked(final IBinder token, boolean fromTimeout,</div><div class="line">		Configuration config) {</div><div class="line">	......</div><div class="line"></div><div class="line">	for (int i = 0; i &lt; NS; i++) {</div><div class="line">		r = stops.get(i);</div><div class="line">		final ActivityStack stack = r.task.stack;</div><div class="line">		if (stack != null) {</div><div class="line">			if (r.finishing) {</div><div class="line">				stack.finishCurrentActivityLocked(r, ActivityStack.FINISH_IMMEDIATELY, false);</div><div class="line">			} else {</div><div class="line">				//&#x8FD9;&#x91CC;&#x53BB;&#x771F;&#x6B63;stop Activity</div><div class="line">				stack.stopActivityLocked(r);</div><div class="line">			}</div><div class="line">		}</div><div class="line">	}</div><div class="line">	......</div><div class="line"></div><div class="line">	return r;</div><div class="line">}</div><div class="line">ActivityStack.java</div><div class="line">final void stopActivityLocked(ActivityRecord r) {</div><div class="line">	if (r.app != null &amp;&amp; r.app.thread != null) {</div><div class="line">		adjustFocusedActivityLocked(r, &quot;stopActivity&quot;);</div><div class="line">		r.resumeKeyDispatchingLocked();</div><div class="line">		try {</div><div class="line">			......</div><div class="line">			//&#x8C03;&#x7528;ApplicationThread&#x7684;scheduleStopActivity&#x65B9;&#x6CD5;&#xFF0C;&#x771F;&#x6B63;stop activity</div><div class="line">			r.app.thread.scheduleStopActivity(r.appToken, r.visible, r.configChangeFlags);</div><div class="line">			......</div><div class="line">		} catch (Exception e) {</div><div class="line">			</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x4E0A;&#x9762;&#x4E00;&#x5927;&#x90E8;&#x5206;&#x5C31;&#x662F;&#x5173;&#x4E8E;onStop&#x7684;&#x5927;&#x4F53;&#x8FC7;&#x7A0B;&#xFF0C;&#x5148;&#x662F;&#x5C06;Activity resume&#x540E;&#x5C06;Idler&#xFF08;&#x8FD9;&#x4E2A;&#x610F;&#x601D;&#x61D2;&#x6C49;&#xFF0C;&#x65E0;&#x6240;&#x4E8B;&#x4E8B;&#x7684;&#x4EBA;&#xFF09;&#x653E;&#x5230;&#x6D88;&#x606F;&#x961F;&#x5217;&#x4E2D;&#xFF0C;&#x5F53;&#x6D88;&#x606F;&#x8FDB;&#x884C;&#x6267;&#x884C;&#x662F;&#xFF0C;&#x4F1A;&#x6267;&#x884C;&#x5176;&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;AMS&#x8C03;&#x7528;activityIdle&#x65B9;&#x6CD5;&#xFF0C;AMS&#x53C8;&#x8C03;&#x7528;ActivityStackSupervisor&#x7684;activityIdleInternalLocked&#x65B9;&#x6CD5;&#xFF0C;&#x800C;activityIdleInternalLocked&#x65B9;&#x6CD5;&#x53C8;&#x4F1A;&#x8C03;&#x7528;ActivityStack&#x7684;stopActivityLocked&#x65B9;&#x6CD5;&#xFF0C;&#x53C8;&#x8DD1;&#x5230;ApplicationThread&#x4E2D;&#x7684;scheduleStopActivity&#x65B9;&#x6CD5;&#x53BB;&#x771F;&#x6B63;stop activity&#x3002;&#x4E0B;&#x9762;&#x7B80;&#x5355;&#x770B;&#x4E0B;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="8-onStop&#x771F;&#x6B63;&#x6267;&#x884C;&#x8FC7;&#x7A0B;"><a href="#8-onStop&#x771F;&#x6B63;&#x6267;&#x884C;&#x8FC7;&#x7A0B;" class="headerlink" title="8. onStop&#x771F;&#x6B63;&#x6267;&#x884C;&#x8FC7;&#x7A0B;"></a>8. onStop&#x771F;&#x6B63;&#x6267;&#x884C;&#x8FC7;&#x7A0B;</h1><blockquote>
+<p>&#x8FD9;&#x91CC;&#x5C31;&#x7B80;&#x5355;&#x770B;&#x4E0B;&#xFF0C;&#x65E0;&#x975E;&#x8FD8;&#x662F;&#x901A;&#x8FC7;Handler&#x53D1;&#x9001;&#x6D88;&#x606F;&#xFF0C;&#x5728;&#x6D88;&#x606F;&#x6267;&#x884C;&#x662F;&#x8C03;&#x7528;ActivityThread&#x7684;&#x65B9;&#x6CD5;&#x53BB;&#x6267;&#x884C;stop&#x3002;&#x4E0B;&#x9762;&#x770B;&#x4E0B;&#x6E90;&#x7801;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">public final void scheduleStopActivity(IBinder token, boolean showWindow,</div><div class="line">		int configChanges) {</div><div class="line">	int seq = getLifecycleSeq();</div><div class="line">	if (DEBUG_ORDER) Slog.d(TAG, &quot;stopActivity &quot; + ActivityThread.this</div><div class="line">			+ &quot; operation received seq: &quot; + seq);</div><div class="line">	sendMessage(</div><div class="line">		showWindow ? H.STOP_ACTIVITY_SHOW : H.STOP_ACTIVITY_HIDE,</div><div class="line">		token, 0, configChanges, seq);</div><div class="line">}</div><div class="line"></div><div class="line">private void handleStopActivity(IBinder token, boolean show, int configChanges, int seq) {</div><div class="line">	......</div><div class="line">	//&#x771F;&#x6B63;&#x6267;&#x884C;stop</div><div class="line">	performStopActivityInner(r, info, show, true, &quot;handleStopActivity&quot;);</div><div class="line">	......</div><div class="line">}</div><div class="line">private void performStopActivityInner(ActivityClientRecord r,</div><div class="line">		StopInfo info, boolean keepShown, boolean saveState, String reason) {</div><div class="line">		......</div><div class="line">		//&#x5982;&#x679C;&#x6709;&#x5FC5;&#x8981;&#x5148;&#x6267;&#x884C;pause&#x65B9;&#x6CD5;</div><div class="line">		performPauseActivityIfNeeded(r, reason);</div><div class="line">		......</div><div class="line">		// Next have the activity save its current state and managed dialogs...</div><div class="line">		if (!r.activity.mFinished &amp;&amp; saveState) {</div><div class="line">			if (r.state == null) {</div><div class="line">				callCallActivityOnSaveInstanceState(r);</div><div class="line">			}</div><div class="line">		}</div><div class="line"></div><div class="line">		if (!keepShown) {</div><div class="line">			try {</div><div class="line">				// &#x6267;&#x884C;onStop&#x65B9;&#x6CD5;</div><div class="line">				r.activity.performStop(false /*preserveWindow*/);</div><div class="line">			} catch (Exception e) {</div><div class="line">				if (!mInstrumentation.onException(r.activity, e)) {</div><div class="line">					throw new RuntimeException(</div><div class="line">							&quot;Unable to stop activity &quot;</div><div class="line">							+ r.intent.getComponent().toShortString()</div><div class="line">							+ &quot;: &quot; + e.toString(), e);</div><div class="line">				}</div><div class="line">			}</div><div class="line">			r.stopped = true;</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x6574;&#x4E2A;&#x6D41;&#x7A0B;&#x5927;&#x6982;&#x5C31;&#x8FD9;&#x6837;&#xFF0C;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x57FA;&#x672C;&#x6267;&#x884C;&#x5B8C;&#x6210;&#x4E86;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="9-&#x6211;&#x8FD8;&#x6709;&#x8BDD;&#x8BF4;"><a href="#9-&#x6211;&#x8FD8;&#x6709;&#x8BDD;&#x8BF4;" class="headerlink" title="9. &#x6211;&#x8FD8;&#x6709;&#x8BDD;&#x8BF4;"></a>9. &#x6211;&#x8FD8;&#x6709;&#x8BDD;&#x8BF4;</h1><blockquote>
+<p>&#x5173;&#x4E8E;Instrumentation&#x7684;&#x5404;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#x6765;&#x8BF4;&#xFF0C;&#x4F8B;&#x5982;<code>Instrumentation.callActivityOnCreate(activity, r.state)</code>&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x91CC;&#x4F1A;&#x6267;&#x884C;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public void callActivityOnCreate(Activity activity, Bundle icicle) {</div><div class="line">        //&#x521B;&#x5EFA;&#x524D;</div><div class="line">        prePerformCreate(activity);</div><div class="line">        //&#x6267;&#x884C;onCreate&#x65B9;&#x6CD5;</div><div class="line">        activity.performCreate(icicle);</div><div class="line">        //&#x521B;&#x5EFA;&#x5B8C;&#x6210;</div><div class="line">        postPerformCreate(activity);</div><div class="line">}</div><div class="line">Activity.java</div><div class="line">final void performCreate(Bundle icicle) {</div><div class="line">	restoreHasCurrentPermissionRequest(icicle);</div><div class="line">	//&#x771F;&#x6B63;&#x6267;&#x884C;onCreate</div><div class="line">	onCreate(icicle);</div><div class="line">	mActivityTransitionState.readState(icicle);</div><div class="line">	performCreateCommon();</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x4E2A;Instrumentation&#x53EF;&#x4EE5;&#x8BF4;&#x662F;&#x4E2A;&#x5C0F;&#x79D8;&#x4E66;&#xFF0C;&#x6211;&#x53EF;&#x4EE5;&#x66FF;&#x5927;&#x8001;&#x677F;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#x524D;&#x540E;&#x6084;&#x6084;&#x7684;&#x505A;&#x70B9;&#x4E8B;&#x60C5;&#xFF0C;&#x8FD9;&#x611F;&#x89C9;&#x5C31;&#x662F;&#x4EE3;&#x7406;&#x6A21;&#x5F0F;&#x554A;&#xFF01;&#xFF01;</p>
+</blockquote>
+<hr>
+<h1 id="&#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;"><a href="#&#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;" class="headerlink" title="&#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;"></a>&#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;</h1><blockquote>
+<p>&#x6709;&#x5B8C;&#x6CA1;&#x5B8C;&#x4E86;&#x554A;&#x3002;&#x597D;&#x5427;&#xFF0C;&#x771F;&#x7684;&#x7ED3;&#x675F;&#x4E86;&#x3002;&#x540E;&#x9762;&#x8FD8;&#x662F;&#x4F1A;&#x6709;&#x5206;&#x6790;&#xFF0C;&#x6574;&#x7406;&#x6574;&#x7406;&#x601D;&#x8DEF;&#xFF0C;&#x8D76;&#x660E;&#x518D;&#x51FA;&#x53D1;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-9f375fb03fd7023a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/13/luncher/" rel="next" title="HomeActivity启动流程（launcher）">
+                <i class="fa fa-chevron-left"></i> HomeActivity启动流程（launcher）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.png"
+               alt="Nick Kang" />
+          <p class="site-author-name" itemprop="name">Nick Kang</p>
+          <p class="site-description motion-element" itemprop="description">风轻云淡，勿忘本心</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-关于Activity的生命周期"><span class="nav-number">2.</span> <span class="nav-text">1. 关于Activity的生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-scheduleLaunchActivity方法"><span class="nav-number">3.</span> <span class="nav-text">2. scheduleLaunchActivity方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Handler处理LAUNCH-ACTIVITY消息"><span class="nav-number">4.</span> <span class="nav-text">3. Handler处理LAUNCH_ACTIVITY消息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-handleLaunchActivity方法和performLaunchActivity方法"><span class="nav-number">5.</span> <span class="nav-text">4. handleLaunchActivity方法和performLaunchActivity方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-还是先说下-onResume"><span class="nav-number">6.</span> <span class="nav-text">5. 还是先说下 onResume</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-总结"><span class="nav-number">7.</span> <span class="nav-text">6. 总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-迟到的onStop"><span class="nav-number">8.</span> <span class="nav-text">7. 迟到的onStop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-onStop真正执行过程"><span class="nav-number">9.</span> <span class="nav-text">8. onStop真正执行过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-我还有话说"><span class="nav-number">10.</span> <span class="nav-text">9. 我还有话说</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写在后面的话"><span class="nav-number">11.</span> <span class="nav-text">写在后面的话</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick Kang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
