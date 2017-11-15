@@ -1,0 +1,669 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nick, Ksuu" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x4ECA;&amp;#x5929;&amp;#x6709;&amp;#x70B9;&amp;#x70E6;&amp;#xFF0C;&amp;#x6709;&amp;#x70B9;&amp;#x70E6;&amp;#x3002;&amp;#x9879;&amp;#x76EE;&amp;#x5199;&amp;#x7684;&amp;#x4E71;&amp;#x6210;&amp;#x56E2;&amp;#xFF0C;&amp;#x6539">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity从创建到显示的整个过程">
+<meta property="og:url" content="https://mcksuu.github.io/2017/11/16/Activity从创建到显示的整个过程/index.html">
+<meta property="og:site_name" content="McKsuu">
+<meta property="og:description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x4ECA;&amp;#x5929;&amp;#x6709;&amp;#x70B9;&amp;#x70E6;&amp;#xFF0C;&amp;#x6709;&amp;#x70B9;&amp;#x70E6;&amp;#x3002;&amp;#x9879;&amp;#x76EE;&amp;#x5199;&amp;#x7684;&amp;#x4E71;&amp;#x6210;&amp;#x56E2;&amp;#xFF0C;&amp;#x6539">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-62f51f9f78817d5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-9a159cd945201411.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-0c18d4e4003bed61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-d9fe956d192146d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-15T16:00:49.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity从创建到显示的整个过程">
+<meta name="twitter:description" content="&amp;#x5199;&amp;#x5728;&amp;#x524D;&amp;#x9762;&amp;#x7684;&amp;#x8BDD;
+&amp;#x4ECA;&amp;#x5929;&amp;#x6709;&amp;#x70B9;&amp;#x70E6;&amp;#xFF0C;&amp;#x6709;&amp;#x70B9;&amp;#x70E6;&amp;#x3002;&amp;#x9879;&amp;#x76EE;&amp;#x5199;&amp;#x7684;&amp;#x4E71;&amp;#x6210;&amp;#x56E2;&amp;#xFF0C;&amp;#x6539">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/5720362-62f51f9f78817d5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mcksuu.github.io/2017/11/16/Activity从创建到显示的整个过程/"/>
+
+
+
+
+
+  <title> Activity从创建到显示的整个过程 | McKsuu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">McKsuu</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">McKsuu</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://mcksuu.github.io/2017/11/16/Activity从创建到显示的整个过程/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Nick Kang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/favicon.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="McKsuu">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="McKsuu" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Activity从创建到显示的整个过程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="post.created" itemprop="dateCreated datePublished" datetime="2017-11-16T00:01:12+08:00">
+                2017-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"><a href="#&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;" class="headerlink" title="&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;"></a>&#x5199;&#x5728;&#x524D;&#x9762;&#x7684;&#x8BDD;</h1><blockquote>
+<p>&#x4ECA;&#x5929;&#x6709;&#x70B9;&#x70E6;&#xFF0C;&#x6709;&#x70B9;&#x70E6;&#x3002;&#x9879;&#x76EE;&#x5199;&#x7684;&#x4E71;&#x6210;&#x56E2;&#xFF0C;&#x6539;&#x8D77;&#x9700;&#x6C42;&#x771F;&#x8981;&#x5B8C;&#x3002;&#x6B64;&#x540E;&#x5F53;&#x4E2A;&#x52A0;&#x73ED;&#x72D7;&#xFF0C;&#x65E0;&#x94B1;&#x65E0;&#x540D;&#x5FC3;&#x8981;&#x5BBD;&#x3002;<br>&#x6628;&#x665A;&#x5199;&#x5230;&#x5341;&#x4E00;&#x70B9;&#xFF0C;&#x6211;&#x90FD;&#x5DEE;&#x70B9;&#x4E0D;&#x76F8;&#x4FE1;&#x8FD9;&#x662F;&#x6211;&#x81EA;&#x5DF1;&#x4E86;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-62f51f9f78817d5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>&#x4ECA;&#x5929;&#x63A5;&#x7740;&#x6628;&#x5929;&#x7684;&#x8282;&#x594F;&#x6765;&#xFF0C;&#x51C6;&#x5907;&#x5199;&#x4E0B;&#x5173;&#x4E8E;Activity&#x4ECE;&#x521B;&#x5EFA;&#x5230;&#x663E;&#x793A;&#x7684;&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-9a159cd945201411.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+<hr>
+<h1 id="1-Activity&#x7684;attach&#x65B9;&#x6CD5;"><a href="#1-Activity&#x7684;attach&#x65B9;&#x6CD5;" class="headerlink" title="1. Activity&#x7684;attach&#x65B9;&#x6CD5;"></a>1. Activity&#x7684;attach&#x65B9;&#x6CD5;</h1><blockquote>
+<p>&#x4E4B;&#x524D;&#x5206;&#x6790;&#x8FC7;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x5177;&#x4F53;&#x8C03;&#x7528;&#x65F6;&#x673A;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;Activity&#x662F;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x521B;&#x5EFA;&#x51FA;&#x6765;&#x7684;&#xFF0C;&#x4E4B;&#x540E;&#x4F1A;&#x6267;&#x884C;attach&#x65B9;&#x6CD5;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">ActivityThread.java:</div><div class="line">activity.attach(appContext, this, getInstrumentation(), r.token,</div><div class="line">	r.ident, app, r.intent, r.activityInfo, title, r.parent,</div><div class="line">	r.embeddedID, r.lastNonConfigurationInstances, config,</div><div class="line">	r.referrer, r.voiceInteractor, window);</div><div class="line">Activity.java:</div><div class="line">final void attach(Context context, ActivityThread aThread,</div><div class="line">		Instrumentation instr, IBinder token, int ident,</div><div class="line">		Application application, Intent intent, ActivityInfo info,</div><div class="line">		CharSequence title, Activity parent, String id,</div><div class="line">		NonConfigurationInstances lastNonConfigurationInstances,</div><div class="line">		Configuration config, String referrer, IVoiceInteractor voiceInteractor,</div><div class="line">		Window window) {</div><div class="line">	//&#x628A;context&#x8D4B;&#x503C;&#x7ED9;mBase&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;getBaseContext&#x83B7;&#x53D6;&#x5230;context</div><div class="line">	attachBaseContext(context);</div><div class="line">	</div><div class="line">	mFragments.attachHost(null /*parent*/);</div><div class="line">	//&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x7A97;&#x53E3;</div><div class="line">	mWindow = new PhoneWindow(this, window);</div><div class="line">	//&#x8FD9;&#x4E2A;&#x597D;&#x50CF;&#x662F;&#x753B;&#x4E2D;&#x753B;&#x7684;callback</div><div class="line">	mWindow.setWindowControllerCallback(this);</div><div class="line">	//&#x8BBE;&#x7F6E;callback&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x5404;&#x79CD;&#x4E8B;&#x4EF6;&#x5305;&#x62EC;&#x952E;&#x76D8;&#x3001;&#x89E6;&#x6478;&#x7B49;&#x4E8B;&#x4EF6;&#x7684;&#x56DE;&#x8C03;</div><div class="line">	mWindow.setCallback(this);</div><div class="line">	//&#x8BBE;&#x7F6E;&#x7A97;&#x53E3;&#x6D88;&#x5931;&#x7684;&#x56DE;&#x8C03;</div><div class="line">	mWindow.setOnWindowDismissedCallback(this);</div><div class="line">	mWindow.getLayoutInflater().setPrivateFactory(this);</div><div class="line">	//&#x4E0E;&#x8F93;&#x5165;&#x6CD5;&#x6709;&#x5173;&#x7684;&#x8BBE;&#x7F6E;</div><div class="line">	if (info.softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED) {</div><div class="line">		mWindow.setSoftInputMode(info.softInputMode);</div><div class="line">	}</div><div class="line">	if (info.uiOptions != 0) {</div><div class="line">		mWindow.setUiOptions(info.uiOptions);</div><div class="line">	}</div><div class="line">	//ui&#x7EBF;&#x7A0B;</div><div class="line">	mUiThread = Thread.currentThread();</div><div class="line">	//&#x4E3B;&#x7EBF;&#x7A0B;</div><div class="line">	mMainThread = aThread;</div><div class="line">	//&#x4E4B;&#x524D;&#x8BF4;&#x5230;&#x7684;&#x5C0F;&#x79D8;&#x4E66;</div><div class="line">	mInstrumentation = instr;</div><div class="line">	//binder</div><div class="line">	mToken = token;</div><div class="line">	mIdent = ident;</div><div class="line">	mApplication = application;</div><div class="line">	mIntent = intent;</div><div class="line">	mReferrer = referrer;</div><div class="line">	mComponent = intent.getComponent();</div><div class="line">	mActivityInfo = info;</div><div class="line">	mTitle = title;</div><div class="line">	mParent = parent;</div><div class="line">	mEmbeddedID = id;</div><div class="line">	mLastNonConfigurationInstances = lastNonConfigurationInstances;</div><div class="line">	......</div><div class="line">	//&#x8BBE;&#x7F6E;(WindowManager)context.getSystemService(Context.WINDOW_SERVICE)</div><div class="line">	mWindow.setWindowManager(</div><div class="line">			(WindowManager)context.getSystemService(Context.WINDOW_SERVICE),</div><div class="line">			mToken, mComponent.flattenToString(),</div><div class="line">			(info.flags &amp; ActivityInfo.FLAG_HARDWARE_ACCELERATED) != 0);</div><div class="line">	if (mParent != null) {</div><div class="line">		mWindow.setContainer(mParent.getWindow());</div><div class="line">	}</div><div class="line">	//WindowManager</div><div class="line">	mWindowManager = mWindow.getWindowManager();</div><div class="line">	mCurrentConfig = config;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>attach&#x65B9;&#x6CD5;&#x5927;&#x90E8;&#x5206;&#x90FD;&#x662F;&#x5728;&#x505A;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x7684;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x4E0A;&#x4E0B;&#x6587;&#xFF0C;&#x4E3B;&#x7EBF;&#x7A0B;&#x548C;UI&#x7EBF;&#x7A0B;&#x3002;&#x91CC;&#x9762;&#x6BD4;&#x8F83;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x70B9;&#x662F;&#x5BF9;Window&#x7684;&#x521B;&#x5EFA;&#xFF0C;&#x6211;&#x4EEC;&#x90FD;&#x77E5;&#x9053;Activity&#x7684;layout&#x662F;&#x663E;&#x793A;&#x5728;&#x7A97;&#x53E3;&#x4E0A;&#x9762;&#x7684;&#xFF0C;&#x8FD9;&#x4E2A;PhoneWindow&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x7684;&#x7A97;&#x53E3;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x4E0B;&#x5176;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">PhoneWindow.java:</div><div class="line">public PhoneWindow(Context context) {</div><div class="line">	super(context);</div><div class="line">        //&#x521D;&#x59CB;&#x5316;mLayoutInflater  layout&#x52A0;&#x8F7D;&#x5668;</div><div class="line">	mLayoutInflater = LayoutInflater.from(context);</div><div class="line">}</div><div class="line"></div><div class="line">public PhoneWindow(Context context, Window preservedWindow) {</div><div class="line">	this(context);</div><div class="line">	</div><div class="line">	mUseDecorContext = true;</div><div class="line">	//&#x4F20;&#x8FC7;&#x6765;&#x7684;preservedWindow&#x4E3A;null</div><div class="line">	if (preservedWindow != null) {</div><div class="line">		......</div><div class="line">	}</div><div class="line">	boolean forceResizable = Settings.Global.getInt(context.getContentResolver(),</div><div class="line">			DEVELOPMENT_FORCE_RESIZABLE_ACTIVITIES, 0) != 0;</div><div class="line">	//&#x662F;&#x5426;&#x652F;&#x6301;&#x753B;&#x4E2D;&#x753B;</div><div class="line">	mSupportsPictureInPicture = forceResizable || context.getPackageManager().hasSystemFeature(</div><div class="line">			PackageManager.FEATURE_PICTURE_IN_PICTURE);</div><div class="line">}</div><div class="line"></div><div class="line">Window.java:</div><div class="line">public Window(Context context) {</div><div class="line">	//&#x628A;&#x4E0A;&#x4E0B;&#x6587;&#x8D4B;&#x503C;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x7684;&#x7279;&#x5F81;</div><div class="line">	mContext = context;</div><div class="line">	mFeatures = mLocalFeatures = getDefaultFeatures(context);</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>attach&#x5230;&#x8FD9;&#x8FB9;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x7ED3;&#x675F;&#x4E86;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="2-Activity&#x7684;onCreate"><a href="#2-Activity&#x7684;onCreate" class="headerlink" title="2. Activity&#x7684;onCreate"></a>2. Activity&#x7684;onCreate</h1><blockquote>
+<p>&#x6309;&#x7167;&#x4E0A;&#x7BC7;&#x8BB2;&#x7684;&#xFF0C;&#x5728;attach&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x4F1A;&#x6267;&#x884C;Activity&#x7684;onCreate&#x65B9;&#x6CD5;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">ActivityThread.java:</div><div class="line">activity.attach(appContext, this, getInstrumentation(), r.token,</div><div class="line">		r.ident, app, r.intent, r.activityInfo, title, r.parent,</div><div class="line">		r.embeddedID, r.lastNonConfigurationInstances, config,</div><div class="line">		r.referrer, r.voiceInteractor, window);</div><div class="line"></div><div class="line">if (customIntent != null) {</div><div class="line">	activity.mIntent = customIntent;</div><div class="line">}</div><div class="line">r.lastNonConfigurationInstances = null;</div><div class="line">activity.mStartedActivity = false;</div><div class="line">int theme = r.activityInfo.getThemeResource();</div><div class="line">if (theme != 0) {</div><div class="line">	activity.setTheme(theme);</div><div class="line">}</div><div class="line"></div><div class="line">activity.mCalled = false;</div><div class="line">if (r.isPersistable()) {</div><div class="line">	mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);</div><div class="line">} else {</div><div class="line">	mInstrumentation.callActivityOnCreate(activity, r.state);</div><div class="line">}</div><div class="line">Activity.java:</div><div class="line">protected void onCreate(@Nullable Bundle savedInstanceState) {</div><div class="line">	if (mLastNonConfigurationInstances != null) {</div><div class="line">		mFragments.restoreLoaderNonConfig(mLastNonConfigurationInstances.loaders);</div><div class="line">	}</div><div class="line">	if (mActivityInfo.parentActivityName != null) {</div><div class="line">		if (mActionBar == null) {</div><div class="line">			mEnableDefaultActionBarUp = true;</div><div class="line">		} else {</div><div class="line">			mActionBar.setDefaultDisplayHomeAsUpEnabled(true);</div><div class="line">		}</div><div class="line">	}</div><div class="line">	if (savedInstanceState != null) {</div><div class="line">		Parcelable p = savedInstanceState.getParcelable(FRAGMENTS_TAG);</div><div class="line">		mFragments.restoreAllState(p, mLastNonConfigurationInstances != null</div><div class="line">				? mLastNonConfigurationInstances.fragments : null);</div><div class="line">	}</div><div class="line">	//FragmentController&#x5206;&#x53D1;Create&#x4E8B;&#x4EF6;</div><div class="line">	mFragments.dispatchCreate();</div><div class="line">        //application&#x5206;&#x53D1;ActivityCreated&#x4E8B;&#x4EF6;</div><div class="line">	getApplication().dispatchActivityCreated(this, savedInstanceState);</div><div class="line">	if (mVoiceInteractor != null) {</div><div class="line">		mVoiceInteractor.attachActivity(this);</div><div class="line">	}</div><div class="line">	mCalled = true;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;onCreate&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5E76;&#x6CA1;&#x6709;&#x505A;&#x592A;&#x591A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x53EA;&#x6709;&#x5F53;&#x524D;create&#x7684;&#x4E8B;&#x4EF6;&#x5206;&#x53D1;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="3-Activity&#x7684;onStart&#x548C;onResume"><a href="#3-Activity&#x7684;onStart&#x548C;onResume" class="headerlink" title="3. Activity&#x7684;onStart&#x548C;onResume"></a>3. Activity&#x7684;onStart&#x548C;onResume</h1><blockquote>
+<p>&#x5728;&#x6267;&#x884C;&#x5B8C;Activity&#x7684;onCreate&#x65B9;&#x6CD5;&#x5C31;&#x4F1A;&#x6267;&#x884C;Activity&#x7684;onStart&#x65B9;&#x6CD5;&#xFF0C;onStart&#x65B9;&#x6CD5;&#x66F4;&#x7B80;&#x5355;&#x3002;&#x3002;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">protected void onStart() {</div><div class="line">	mCalled = true;</div><div class="line">	mFragments.doLoaderStart();</div><div class="line">	getApplication().dispatchActivityStarted(this);</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x770B;&#x5B8C;onStart&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x731C;&#x51FA;onResume&#x505A;&#x4E86;&#x4EC0;&#x4E48;&#x3002;&#x6CA1;&#x9519;&#xFF0C;&#x5C31;&#x662F;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">protected void onResume() {</div><div class="line">	getApplication().dispatchActivityResumed(this);</div><div class="line">	mActivityTransitionState.onResume(this, isTopOfTask());</div><div class="line">	mCalled = true;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x770B;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x5176;&#x5B9E;&#x4F1A;&#x6709;&#x4E00;&#x70B9;&#x70B9;&#x61F5;&#x903C;&#x7684;&#x3002;&#x524D;&#x4EBA;&#x603B;&#x662F;&#x8BF4;&#xFF0C;onStart&#x4EE3;&#x8868;&#x7740;Activity&#x53EF;&#x89C1;&#x4E86;&#xFF0C;onResume&#x4EE3;&#x8868;&#x7740;&#x53EF;&#x4EE5;&#x4EA4;&#x4E92;&#x4E86;&#x3002;&#x4F46;&#x662F;&#x5230;&#x8FD9;&#x91CC;&#x4E86;&#xFF0C;&#x6211;&#x624D;&#x53D1;&#x73B0;&#x5982;&#x4F55;&#x628A;View&#x6DFB;&#x52A0;&#x5230;&#x7A97;&#x53E3;&#x4E0A;&#x7684;&#xFF1F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x6DFB;&#x52A0;&#x7684;&#xFF1F;&#x7ED8;&#x5236;&#x7684;&#x65F6;&#x95F4;&#x5462;&#xFF1F;&#x53E4;&#x4EBA;&#x8BDA;&#x4F46;&#x6B3A;&#x6211;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-0c18d4e4003bed61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>&#x5230;&#x4E86;&#x8FD9;&#x91CC;&#xFF0C;&#x5E0C;&#x671B;&#x5F97;&#x5230;&#x7684;&#x7B54;&#x6848;&#x5E76;&#x6CA1;&#x6709;&#x51FA;&#x73B0;&#xFF0C;&#x6240;&#x4EE5;&#x7EE7;&#x7EED;&#x5206;&#x6790;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="4-&#x771F;&#x6B63;&#x7684;&#x6DFB;&#x52A0;&#x8FC7;&#x7A0B;"><a href="#4-&#x771F;&#x6B63;&#x7684;&#x6DFB;&#x52A0;&#x8FC7;&#x7A0B;" class="headerlink" title="4. &#x771F;&#x6B63;&#x7684;&#x6DFB;&#x52A0;&#x8FC7;&#x7A0B;"></a>4. &#x771F;&#x6B63;&#x7684;&#x6DFB;&#x52A0;&#x8FC7;&#x7A0B;</h1><blockquote>
+<p>&#x771F;&#x6B63;&#x6DFB;&#x52A0;&#x7684;&#x8FC7;&#x7A0B;&#x5176;&#x5B9E;&#x5728;&#x6267;&#x884C;&#x5B8C;performResumeActivity&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x540E;&#xFF0C;&#x7CFB;&#x7EDF;&#x6839;&#x636E;&#x8BE5;Activity&#x662F;&#x5426;&#x8981;&#x663E;&#x793A;&#x6765;&#x8BBE;&#x7F6E;&#x9875;&#x9762;&#x662F;&#x5426;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x5230;&#x7A97;&#x53E3;&#x4E0A;&#xFF0C;&#x5176;&#x4E2D;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x662F;<code>wm.addView(decor, l)</code>&#x8FD9;&#x53E5;&#x4EE3;&#x7801;&#xFF0C;&#x901A;&#x8FC7;WindowManager&#x5C06;view&#x548C;LayoutParams&#x6DFB;&#x52A0;&#x5230;&#x7A97;&#x53E3;&#x4E0A;&#xFF0C;&#x5E76;&#x4E14;&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF08;&#x8FD9;&#x90E8;&#x5206;&#x540E;&#x9762;&#x4F1A;&#x6709;&#x5206;&#x6790;&#xFF09;&#x3002;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line">final void handleResumeActivity(IBinder token,</div><div class="line">		boolean clearHide, boolean isForward, boolean reallyResume, int seq, String reason) {</div><div class="line">	......</div><div class="line">	r = performResumeActivity(token, clearHide, reason);</div><div class="line"></div><div class="line">	if (r != null) {</div><div class="line">		final Activity a = r.activity;</div><div class="line">		final int forwardBit = isForward ?</div><div class="line">				WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION : 0;</div><div class="line">		//&#x5C06;&#x8981;&#x663E;&#x793A;</div><div class="line">		boolean willBeVisible = !a.mStartedActivity;</div><div class="line">		if (!willBeVisible) {</div><div class="line">			try {</div><div class="line">				willBeVisible = ActivityManagerNative.getDefault().willActivityBeVisible(</div><div class="line">						a.getActivityToken());</div><div class="line">			} catch (RemoteException e) {</div><div class="line">				throw e.rethrowFromSystemServer();</div><div class="line">			}</div><div class="line">		}</div><div class="line">		//&#x8FD9;&#x4E2A;&#x6761;&#x4EF6;a.mFinished false  r.window == null willBeVisible = true</div><div class="line">		if (r.window == null &amp;&amp; !a.mFinished &amp;&amp; willBeVisible) {</div><div class="line">			//&#x8FD9;&#x4E2A;r.activity.getWindow()&#x5C31;&#x662F;&#x6211;&#x4EEC;attach&#x4E2D;&#x521B;&#x5EFA;&#x7684;PhoneWindow</div><div class="line">			r.window = r.activity.getWindow();</div><div class="line">			//&#x83B7;&#x5F97;DecorView&#xFF0C;&#x8FD9;&#x91CC;&#x6682;&#x65F6;&#x7406;&#x89E3;&#x4E3A;&#x4E00;&#x4E2A;View&#x5427;&#xFF0C;&#x540E;&#x9762;&#x8FD8;&#x4F1A;&#x6709;&#x5206;&#x6790;&#x7684;</div><div class="line">			View decor = r.window.getDecorView();</div><div class="line">			//DecorView&#x8BBE;&#x4E3A;INVISIBLE</div><div class="line">			decor.setVisibility(View.INVISIBLE);</div><div class="line">			ViewManager wm = a.getWindowManager();</div><div class="line">			WindowManager.LayoutParams l = r.window.getAttributes();</div><div class="line">			a.mDecor = decor;</div><div class="line">			l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;</div><div class="line">			l.softInputMode |= forwardBit;</div><div class="line">			//false&#xFF08;&#x5728;&#x521B;&#x5EFA;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x8D4B;&#x503C;&#xFF09;</div><div class="line">			if (r.mPreserveWindow) {</div><div class="line">				a.mWindowAdded = true;</div><div class="line">				r.mPreserveWindow = false;</div><div class="line">				ViewRootImpl impl = decor.getViewRootImpl();</div><div class="line">				if (impl != null) {</div><div class="line">					impl.notifyChildRebuilt();</div><div class="line">				}</div><div class="line">			}</div><div class="line">			//mVisibleFromClient = !mWindow.getWindowStyle().getBoolean(com.android.internal.R.styleable.Window_windowNoDisplay, false);</div><div class="line">			//&#x5982;&#x679C;Activity&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;NoDisplay&#xFF0C;&#x5219;&#x8FD9;&#x4E2A;mVisibleFromClient&#x53D8;&#x91CF;&#x662F;true</div><div class="line">			//mWindowAdded&#x8FD9;&#x4E2A;&#x503C;&#x662F;&#x9ED8;&#x8BA4;&#x7684;&#xFF0C;&#x53EA;&#x6709;&#x88AB;add&#x540E;&#x624D;&#x4F1A;&#x53D8;&#x4E3A;true</div><div class="line">			if (a.mVisibleFromClient &amp;&amp; !a.mWindowAdded) {</div><div class="line">				a.mWindowAdded = true;</div><div class="line">				wm.addView(decor, l);</div><div class="line">			}</div><div class="line"></div><div class="line">		} else if (!willBeVisible) {</div><div class="line">			r.hideForNow = true;</div><div class="line">		}</div><div class="line">		</div><div class="line">		cleanUpPendingRemoveWindows(r, false /* force */);</div><div class="line"></div><div class="line">		if (!r.activity.mFinished &amp;&amp; willBeVisible</div><div class="line">				&amp;&amp; r.activity.mDecor != null &amp;&amp; !r.hideForNow) {</div><div class="line">			if (r.newConfig != null) {</div><div class="line">				performConfigurationChangedForActivity(r, r.newConfig, REPORT_TO_ACTIVITY);</div><div class="line">				r.newConfig = null;</div><div class="line">			}</div><div class="line">			</div><div class="line">			WindowManager.LayoutParams l = r.window.getAttributes();</div><div class="line">			......</div><div class="line">			r.activity.mVisibleFromServer = true;</div><div class="line">			mNumVisibleActivities++;</div><div class="line">			//&#x8FD9;&#x91CC;&#x53C8;&#x6267;&#x884C;&#x4E86;makeVisible&#xFF0C;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x5728;&#x4E0A;&#x9762;&#x5DF2;&#x7ECF;add&#x4E86;&#xFF0C;mWindowAdded&#x8FD9;&#x4E2A;&#x53D8;&#x91CF;&#x4E3A;true&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x591A;&#x6B21;add&#x3002;</div><div class="line">			//&#x6700;&#x540E;decorView&#x8BBE;&#x7F6E;&#x4E3A;&#x663E;&#x793A;</div><div class="line">			//void makeVisible() {</div><div class="line">			//	if (!mWindowAdded) {</div><div class="line">			//		ViewManager wm = getWindowManager();</div><div class="line">			//		wm.addView(mDecor, getWindow().getAttributes());</div><div class="line">			//		mWindowAdded = true;</div><div class="line">			//	}</div><div class="line">			//	mDecor.setVisibility(View.VISIBLE);</div><div class="line">			//}</div><div class="line">			if (r.activity.mVisibleFromClient) {</div><div class="line">				r.activity.makeVisible();</div><div class="line">			}</div><div class="line">		}</div><div class="line"></div><div class="line">		if (!r.onlyLocalRequest) {</div><div class="line">			r.nextIdle = mNewActivities;</div><div class="line">			mNewActivities = r;</div><div class="line">			//&#x8FD9;&#x4E24;&#x5929;&#x624D;&#x4E86;&#x89E3;&#x5230;&#x8FD9;&#x4E2A;addIdleHandler&#x662F;&#x6307;&#x7A7A;&#x95F2;&#x65F6;&#x5904;&#x7406;&#x7684;&#x6D88;&#x606F;&#xFF0C;MessageQueue&#x6709;&#x4E13;&#x95E8;&#x7684;&#x63A5;&#x53E3;MessageQueue.IdleHandler</div><div class="line">			//&#x8FD9;&#x91CC;&#x4E4B;&#x524D;&#x8BF4;&#x9053;&#x4F1A;&#x6267;&#x884C;&#x524D;&#x4E2A;&#x9875;&#x9762;&#x7684;onStop</div><div class="line">			Looper.myQueue().addIdleHandler(new Idler());</div><div class="line">		}</div><div class="line">		r.onlyLocalRequest = false;</div><div class="line"></div><div class="line">		// Tell the activity manager we have resumed.</div><div class="line">		if (reallyResume) {</div><div class="line">			try {</div><div class="line">				ActivityManagerNative.getDefault().activityResumed(token);</div><div class="line">			} catch (RemoteException ex) {</div><div class="line">				throw ex.rethrowFromSystemServer();</div><div class="line">			}</div><div class="line">		}</div><div class="line"></div><div class="line">	} else {</div><div class="line">		//&#x51FA;&#x73B0;&#x95EE;&#x9898;&#x5C31;finish</div><div class="line">		try {</div><div class="line">			ActivityManagerNative.getDefault()</div><div class="line">				.finishActivity(token, Activity.RESULT_CANCELED, null,</div><div class="line">						Activity.DONT_FINISH_TASK_WITH_ACTIVITY);</div><div class="line">		} catch (RemoteException ex) {</div><div class="line">			throw ex.rethrowFromSystemServer();</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure></p>
+</blockquote>
+<hr>
+<h1 id="5-&#x5927;&#x81F4;&#x8981;&#x603B;&#x7ED3;&#x4E0B;"><a href="#5-&#x5927;&#x81F4;&#x8981;&#x603B;&#x7ED3;&#x4E0B;" class="headerlink" title="5. &#x5927;&#x81F4;&#x8981;&#x603B;&#x7ED3;&#x4E0B;"></a>5. &#x5927;&#x81F4;&#x8981;&#x603B;&#x7ED3;&#x4E0B;</h1><blockquote>
+<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;&#x5206;&#x6790;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x77E5;&#x9053;Activity&#x5728;&#x521B;&#x5EFA;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;onCreate&#x3001;onStart&#x4EE5;&#x53CA;onResume&#x5176;&#x5B9E;&#x90FD;&#x6CA1;&#x6709;&#x5173;&#x4E8E;&#x5BF9;&#x9875;&#x9762;&#x663E;&#x793A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x771F;&#x6B63;&#x663E;&#x793A;&#x9875;&#x9762;&#x662F;&#x5728;onResmue&#x4E4B;&#x540E;&#xFF0C;WindowManager&#x5C06;decorView&#x6DFB;&#x52A0;&#x540E;&#x8FDB;&#x884C;&#x7ED8;&#x5236;&#xFF08;&#x540E;&#x9762;&#x5E94;&#x8BE5;&#x4F1A;&#x5C06;&#xFF09;&#x3002;<br>&#x4ECA;&#x5929;&#x4E5F;&#x6070;&#x5DE7;&#x770B;&#x5230;&#x4E86;&#x4E00;&#x7BC7;&#x8BB2;&#x89E3;&#x5173;&#x4E8E;<code>MessageQueue.IdleHandler</code>&#x7684;&#x6587;&#x7AE0;&#xFF0C;&#x8FD9;&#x4E2A;IdleHandler&#x4F1A;&#x5728;&#x7EBF;&#x7A0B;&#x7A7A;&#x95F2;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x64CD;&#x4F5C;&#x3002;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;IdleHandler&#x5BF9;&#x4E8E;&#x67D0;&#x4E9B;&#x5EF6;&#x65F6;&#x64CD;&#x4F5C;&#xFF0C;&#x4F46;&#x53C8;&#x4E0D;&#x6E05;&#x695A;&#x9875;&#x9762;&#x662F;&#x5426;&#x771F;&#x6B63;&#x7ED8;&#x5236;&#x5B8C;&#x6210;&#x6709;&#x5947;&#x6548;&#x3002;</p>
+</blockquote>
+<hr>
+<h1 id="6-&#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;"><a href="#6-&#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;" class="headerlink" title="6. &#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;"></a>6. &#x5199;&#x5728;&#x540E;&#x9762;&#x7684;&#x8BDD;</h1><blockquote>
+<p>&#x8FD9;&#x4E9B;&#x5929;&#x8BB2;&#x4E86;&#x4ECE;Android&#x542F;&#x52A8;&#x5230;HomeActivity&#x7684;&#x542F;&#x52A8;&#xFF0C;&#x53C8;&#x4ECE;HomeActivity&#x542F;&#x52A8;&#x8FC7;&#x7A0B;&#x5F00;&#x59CB;&#x5206;&#x6790;Activity&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;&#x63A5;&#x7740;&#x8FD9;&#x7BC7;&#x8BB2;&#x89E3;&#x4E86;Activity&#x4ECE;&#x521B;&#x5EFA;&#x5230;&#x663E;&#x793A;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x4F46;&#x662F;&#x5E76;&#x6CA1;&#x6709;&#x5B8C;&#x5168;&#x5B8C;&#x6210;&#x3002;&#x8FD9;&#x91CC;&#x53EA;&#x8BB2;&#x5230;&#x4E86;&#x6267;&#x884C;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x4F1A;&#x5C06;&#x9875;&#x9762;&#x663E;&#x793A;&#xFF0C;&#x4F46;&#x662F;&#x5177;&#x4F53;&#x5982;&#x4F55;&#x663E;&#x793A;&#x6CA1;&#x6709;&#x8BF4;&#x660E;&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x5E94;&#x8BE5;&#x5C06;&#x7684;&#x5C31;&#x662F;&#x8FD9;&#x4E2A;&#x9875;&#x9762;&#x5982;&#x4F55;&#x7ED8;&#x5236;&#x5E76;&#x5C55;&#x793A;&#x51FA;&#x6765;&#x3002;&#x5C31;&#x8FD9;&#x6837;&#x3002;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-d9fe956d192146d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/13/ActivityLifeCycle/" rel="next" title="从源码分析Activity启动时的生命周期">
+                <i class="fa fa-chevron-left"></i> 从源码分析Activity启动时的生命周期
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.png"
+               alt="Nick Kang" />
+          <p class="site-author-name" itemprop="name">Nick Kang</p>
+          <p class="site-description motion-element" itemprop="description">风轻云淡，勿忘本心</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Activity的attach方法"><span class="nav-number">2.</span> <span class="nav-text">1. Activity的attach方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Activity的onCreate"><span class="nav-number">3.</span> <span class="nav-text">2. Activity的onCreate</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Activity的onStart和onResume"><span class="nav-number">4.</span> <span class="nav-text">3. Activity的onStart和onResume</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-真正的添加过程"><span class="nav-number">5.</span> <span class="nav-text">4. 真正的添加过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-大致要总结下"><span class="nav-number">6.</span> <span class="nav-text">5. 大致要总结下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-写在后面的话"><span class="nav-number">7.</span> <span class="nav-text">6. 写在后面的话</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nick Kang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
