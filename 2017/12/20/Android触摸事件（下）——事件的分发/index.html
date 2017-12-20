@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-0e5073f1f1476c41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-68a98ab5d91616aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5720362-e267266524a98c40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-20T13:35:56.875Z">
+<meta property="og:updated_time" content="2017-12-20T13:45:05.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android触摸事件（下）——事件的分发">
 <meta name="twitter:description" content="&amp;#x5DF2;&amp;#x7ECF;&amp;#x8BB0;&amp;#x4E0D;&amp;#x6E05;&amp;#x6709;&amp;#x591A;&amp;#x4E45;&amp;#x4E86;&amp;#xFF0C;&amp;#x8C8C;&amp;#x4F3C;&amp;#x81EA;&amp;#x4ECE;&amp;#x63A5;&amp;#x89E6;Android&amp;#x5F00;&amp;#x53D1;&amp;#x5F00;&amp;#x59CB;&amp;#xFF0C;Android&amp;#x7684;&amp;#x4E8B;&amp;#">
@@ -298,6 +298,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -332,7 +337,7 @@
 <p>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5C31;&#x7B80;&#x5355;&#x4E86;&#x5F88;&#x591A;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4F5C;&#x4E3A;&#x6700;&#x7EC8;&#x7684;View&#xFF08;View&#x4E0D;&#x5305;&#x62EC;&#x5B50;View&#xFF09;&#xFF0C;&#x6240;&#x80FD;&#x8FDB;&#x884C;&#x7684;&#x64CD;&#x4F5C;&#x8981;&#x4E48;&#x6D88;&#x8D39;&#x4E8B;&#x4EF6;&#x8981;&#x4E48;&#x4E0D;&#x6D88;&#x8D39;&#x4E8B;&#x4EF6;&#x3002;&#x4ECE;&#x65B9;&#x6CD5;&#x7684;&#x5B9E;&#x73B0;&#x4E2D;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF1A;</p>
 <ol>
 <li>&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x4E86;OnTouchListener&#x5E76;&#x4E14;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;true&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x4F1A;<strong>&#x5148;&#x6267;&#x884C;OnTouchListener&#x7684;onTouch&#x65B9;&#x6CD5;&#xFF0C;&#x63A5;&#x7740;&#x6839;&#x636E;&#x8FD4;&#x56DE;&#x503C;&#x6765;&#x786E;&#x5B9A;&#x662F;&#x5426;&#x9700;&#x8981;&#x6267;&#x884C;onTouchEvent&#x65B9;&#x6CD5;</strong>&#x3002;</li>
-<li>onTouchEvent&#x662F;&#x5426;&#x9700;&#x8981;&#x8C03;&#x7528;&#x662F;&#x548C;<strong>result&#x7684;&#x503C;&#x6709;&#x5173;</strong>&#xFF1A;<strong>&#x5982;&#x679C;result&#x4E3A;true&#xFF0C;&#x5219;&#x4E0D;&#x8C03;&#x7528;&#xFF1B;&#x53CD;&#x4E4B;&#xFF0C;&#x5219;&#x8C03;&#x7528;</strong>&#x3002;<h1 id="4-&#x9A8C;&#x8BC1;"><a href="#4-&#x9A8C;&#x8BC1;" class="headerlink" title="4. &#x9A8C;&#x8BC1;"></a>4. &#x9A8C;&#x8BC1;</h1>&#x9A8C;&#x8BC1;&#x8FC7;&#x7A0B;&#x5176;&#x662F;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x53EA;&#x8981;&#x80FD;&#x591F;&#x8FDB;&#x884C;debug&#x770B;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x5373;&#x53EF;&#x3002;&#x6211;&#x8FD9;&#x91CC;&#x6D4B;&#x8BD5;&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-cf323680ae94397d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="&#x5E03;&#x5C40;&#x4EE3;&#x7801;"><br><img src="http://upload-images.jianshu.io/upload_images/5720362-0e5073f1f1476c41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;"><br>&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x56FE;&#xFF1A;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-68a98ab5d91616aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="debug&#x56FE;"><br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x56FE;&#x4E2D;&#x662F;&#x901A;&#x8FC7;ViewGroup&#x4E00;&#x6B65;&#x4E00;&#x6B65;&#x8C03;&#x7528;&#x5230;&#x6700;&#x7EC8;&#x7684;TextView&#x7684;dispatchTouchEvent&#x65B9;&#x6CD5;&#x7684;&#xFF0C;&#x5173;&#x4E8E;&#x4E3A;&#x5565;&#x4F1A;&#x6267;&#x884C;&#x8FD9;&#x4E48;&#x591A;&#x6B21;&#xFF0C;&#x9700;&#x8981;&#x770B;&#x4E0B;&#x9875;&#x9762;&#x7ED3;&#x6784;&#x56FE;&#xFF1A;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-e267266524a98c40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="&#x9875;&#x9762;&#x7ED3;&#x6784;"><br>&#x4ECE;&#x56FE;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6211;&#x4EEC;&#x6700;&#x7EC8;&#x7684;TextView&#x88AB;n&#x591A;&#x4E2A;layout&#x5305;&#x88F9;&#xFF0C;&#x6240;&#x4EE5;&#x4F1A;&#x51FA;&#x73B0;ViewGroup&#x4E2D;&#x7684;dispatchTouchEvent&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x591A;&#x6B21;&#x3002;<h1 id="4-&#x603B;&#x7ED3;"><a href="#4-&#x603B;&#x7ED3;" class="headerlink" title="4. &#x603B;&#x7ED3;"></a>4. &#x603B;&#x7ED3;</h1>&#x4ECE;&#x6E90;&#x7801;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF1A;</li>
+<li>onTouchEvent&#x662F;&#x5426;&#x9700;&#x8981;&#x8C03;&#x7528;&#x662F;&#x548C;<strong>result&#x7684;&#x503C;&#x6709;&#x5173;</strong>&#xFF1A;<strong>&#x5982;&#x679C;result&#x4E3A;true&#xFF0C;&#x5219;&#x4E0D;&#x8C03;&#x7528;&#xFF1B;&#x53CD;&#x4E4B;&#xFF0C;&#x5219;&#x8C03;&#x7528;</strong>&#x3002;<h1 id="4-&#x9A8C;&#x8BC1;"><a href="#4-&#x9A8C;&#x8BC1;" class="headerlink" title="4. &#x9A8C;&#x8BC1;"></a>4. &#x9A8C;&#x8BC1;</h1>&#x9A8C;&#x8BC1;&#x8FC7;&#x7A0B;&#x5176;&#x662F;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x53EA;&#x8981;&#x80FD;&#x591F;&#x8FDB;&#x884C;debug&#x770B;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x5373;&#x53EF;&#x3002;&#x6211;&#x8FD9;&#x91CC;&#x6D4B;&#x8BD5;&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-cf323680ae94397d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="&#x5E03;&#x5C40;&#x4EE3;&#x7801;"><br><img src="http://upload-images.jianshu.io/upload_images/5720362-0e5073f1f1476c41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;"><br>&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x56FE;&#xFF1A;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-68a98ab5d91616aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="debug&#x56FE;"><br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x56FE;&#x4E2D;&#x662F;&#x901A;&#x8FC7;ViewGroup&#x4E00;&#x6B65;&#x4E00;&#x6B65;&#x8C03;&#x7528;&#x5230;&#x6700;&#x7EC8;&#x7684;TextView&#x7684;dispatchTouchEvent&#x65B9;&#x6CD5;&#x7684;&#xFF0C;&#x5173;&#x4E8E;&#x4E3A;&#x5565;&#x4F1A;&#x6267;&#x884C;&#x8FD9;&#x4E48;&#x591A;&#x6B21;&#xFF0C;&#x9700;&#x8981;&#x770B;&#x4E0B;&#x9875;&#x9762;&#x7ED3;&#x6784;&#x56FE;&#xFF1A;<br><img src="http://upload-images.jianshu.io/upload_images/5720362-e267266524a98c40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="&#x9875;&#x9762;&#x7ED3;&#x6784;"><br>&#x4ECE;&#x56FE;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6211;&#x4EEC;&#x6700;&#x7EC8;&#x7684;TextView&#x88AB;n&#x591A;&#x4E2A;layout&#x5305;&#x88F9;&#xFF0C;&#x6240;&#x4EE5;&#x4F1A;&#x51FA;&#x73B0;ViewGroup&#x4E2D;&#x7684;dispatchTouchEvent&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x591A;&#x6B21;&#x3002;<h1 id="5-&#x603B;&#x7ED3;"><a href="#5-&#x603B;&#x7ED3;" class="headerlink" title="5. &#x603B;&#x7ED3;"></a>5. &#x603B;&#x7ED3;</h1>&#x4ECE;&#x6E90;&#x7801;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF1A;</li>
 </ol>
 <ul>
 <li><strong>&#x4E8B;&#x4EF6;&#x7684;&#x5206;&#x53D1;&#x6700;&#x91CD;&#x8981;&#x7684;&#x662F;&#x5BF9;ACTION_DOWN&#x4E8B;&#x4EF6;&#x7684;&#x5206;&#x53D1;&#xFF0C;&#x5728;&#x5206;&#x53D1;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF1A;&#x5982;&#x679C;&#x8BE5;ViewGroup&#x6CA1;&#x6709;&#x62E6;&#x622A;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x5BF9;&#x5176;&#x5B50;View&#x8FDB;&#x884C;&#x4E8B;&#x4EF6;&#x5206;&#x53D1;&#x3002;&#x5982;&#x679C;&#x5B50;View&#x6CA1;&#x6709;&#x6D88;&#x8D39;&#x4E8B;&#x4EF6;&#xFF08;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;true&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x4EA4;&#x7531;&#x4E0A;&#x4E00;&#x7EA7;&#x5904;&#x7406;&#x3002;</strong></li>
@@ -482,7 +487,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-事件产生的整个流程（Java层）"><span class="nav-number">1.</span> <span class="nav-text">1. 事件产生的整个流程（Java层）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ViewGroup的事件分发"><span class="nav-number">2.</span> <span class="nav-text">2. ViewGroup的事件分发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-View的dispatchTouchEvent方法"><span class="nav-number">3.</span> <span class="nav-text">3. View的dispatchTouchEvent方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-验证"><span class="nav-number">4.</span> <span class="nav-text">4. 验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-总结"><span class="nav-number">5.</span> <span class="nav-text">4. 总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-事件产生的整个流程（Java层）"><span class="nav-number">1.</span> <span class="nav-text">1. 事件产生的整个流程（Java层）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ViewGroup的事件分发"><span class="nav-number">2.</span> <span class="nav-text">2. ViewGroup的事件分发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-View的dispatchTouchEvent方法"><span class="nav-number">3.</span> <span class="nav-text">3. View的dispatchTouchEvent方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-验证"><span class="nav-number">4.</span> <span class="nav-text">4. 验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-总结"><span class="nav-number">5.</span> <span class="nav-text">5. 总结</span></a></li></ol></div>
             
 
           </div>
@@ -524,6 +529,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
